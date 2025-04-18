@@ -15,7 +15,15 @@ return new class extends Migration
             $table->id('id_codigo_color');
             $table->string('codigo');
             $table->string('nombre_color');
-            $table->integer('id_marca_material');
+            $table->unsignedBigInteger('id_marca_material');
+
+            $table->foreign('id_marca_material')
+                ->references('id_marca_material')
+                ->on('marca_material')
+                ->onDelete('cascade');
+            
+            $table->unique(['codigo','id_marca_material']);
+
             $table->timestamps();
         });
     }

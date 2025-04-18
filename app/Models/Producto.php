@@ -15,14 +15,14 @@ class Producto extends Model
     protected $primary_key = 'id_producto';
 
     protected $fillable = [
-        'categoria',
+        'id_categoria',
         'id_marca_material',
         'id_codigo_color',
         'precio_unitario',
         'precio_mayoreo',
-        'stock',
+        'activo',
         'descripcion',
-        'fecha_registro',
-        'activo'
+        'stock',
+        'fecha_registro'
     ];
 }

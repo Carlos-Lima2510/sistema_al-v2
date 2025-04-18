@@ -15,7 +15,7 @@ class Marca extends Model
     public $timestamps = true;
 
     protected $fillable = [
-        'nombre'
+        'nombre_marca'
     ];
     
 }

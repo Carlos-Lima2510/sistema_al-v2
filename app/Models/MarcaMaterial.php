@@ -16,6 +16,6 @@ class MarcaMaterial extends Model
 
     protected $fillable = [
         'id_marca',
-        'id_material'
+        'id_tipo_material'
     ];
 }
