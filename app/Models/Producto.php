@@ -18,7 +18,7 @@ class Producto extends Model
         'id_marca_material',
         'id_codigo_color',
         'precio_unitario',
-        'precio_mayoreo',
+        'precio_por_mayor',
         'activo',
         'descripcion',
         'stock',
