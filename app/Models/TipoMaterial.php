@@ -20,6 +20,7 @@ class TipoMaterial extends Model
         'nombre_material',
         'descripcion'
     ];
+    protected $hidden = ['created_at', 'updated_at'];
 
     public function marcaMateriales(): HasMany
     {

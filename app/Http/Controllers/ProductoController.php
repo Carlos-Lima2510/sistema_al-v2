@@ -15,6 +15,7 @@ class ProductoController extends Controller
         $productos = Producto::with([
             'categoria',
             'marcaMaterial.marca',
+            'marcaMaterial.tipo_material',
             'codigoColor'
         ])->get();
     

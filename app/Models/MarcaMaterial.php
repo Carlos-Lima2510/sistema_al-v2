@@ -21,6 +21,7 @@ class MarcaMaterial extends Model
         'id_marca',
         'id_tipo_material'
     ];
+    protected $hidden = ['created_at', 'updated_at'];
 
     public function productos(): HasMany
     {

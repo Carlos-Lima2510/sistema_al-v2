@@ -1,10 +1,15 @@
 <?php
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductoController;
+use App\Http\Controllers\AuthController;
 
-Route::middleware('api')->group(function () {
-    Route::get('/productos', [ProductoController::class, 'index']);
-    Route::get('/productos/{producto}', [ProductoController::class, 'show']);
+// Rutas públicas
+Route::post('/login', [AuthController::class, 'login']);
+
+Route::middleware('auth:sanctum')->group(function () {
+    // Rutas protegidas
+    Route::apiResource('productos', ProductoController::class);
 });
+
+

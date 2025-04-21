@@ -17,6 +17,7 @@ class Categoria extends Model
     protected $fillable = [
         'nombre_categoria'
     ];
+    protected $hidden = ['created_at', 'updated_at'];
 
     public function productos(): HasMany
     {

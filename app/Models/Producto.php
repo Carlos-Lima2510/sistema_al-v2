@@ -24,6 +24,7 @@ class Producto extends Model
         'stock',
         'fecha_registro'
     ];
+    protected $hidden = ['created_at', 'updated_at'];
 
     public function categoria(): BelongsTo 
     {

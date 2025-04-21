@@ -20,6 +20,7 @@ class CodigoColor extends Model
         'nombre_color',
         'id_marca_material'
     ];
+    protected $hidden = ['created_at', 'updated_at'];
 
     public function marcaMaterial(): BelongsTo
     {
