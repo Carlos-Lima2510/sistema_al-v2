@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class CodigoColor extends Model
 {
@@ -11,7 +12,7 @@ class CodigoColor extends Model
     use HasFactory;
 
     protected $table = 'codigo_color';
-    protected $primary_key = 'id_codigo_color';
+    protected $primaryKey = 'id_codigo_color';
     public $timestamps = true;
 
     protected $fillable = [
@@ -19,5 +20,10 @@ class CodigoColor extends Model
         'nombre_color',
         'id_marca_material'
     ];
+
+    public function marcaMaterial(): BelongsTo
+    {
+        return $this->belongsTo(MarcaMaterial::class, 'id_marca_material');
+    }
 
 }
