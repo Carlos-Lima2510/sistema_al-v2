@@ -12,7 +12,13 @@ class ProductoController extends Controller
      */
     public function index()
     {
-        //
+        $productos = Producto::with([
+            'categoria',
+            'marcaMaterial.marca',
+            'codigoColor'
+        ])->get();
+    
+        return response()->json($productos);
     }
 
     /**
@@ -36,7 +42,14 @@ class ProductoController extends Controller
      */
     public function show(Producto $producto)
     {
-        //
+        $producto = Producto::with([
+            'categoria',
+            'marcaMaterial.marca',
+            'marcaMaterial.tipo_material',
+            'codigoColor'
+        ])->findOrFail($producto->id_producto); 
+    
+        return response()->json($producto);
     }
 
     /**
