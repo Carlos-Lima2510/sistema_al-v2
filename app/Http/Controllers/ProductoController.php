@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Producto;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use App\Http\Requests\StoreProductoRequest;
+use App\Http\Resources\ProductoResource;
 
 class ProductoController extends Controller
 {
@@ -28,7 +30,7 @@ class ProductoController extends Controller
             'codigoColor'
         ])->get();
 
-        return response()->json($productos);
+        return ProductoResource::collection($productos);
     }
 
     /**
@@ -42,20 +44,9 @@ class ProductoController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreProductoRequest $request)
     {
-        $producto = Producto::create($request->only([
-            'id_categoria',
-            'id_marca_material',
-            'id_codigo_color',
-            'precio_unitario',
-            'precio_por_mayor',
-            'stock',
-            'descripcion',
-            'activo',
-            'fecha_registro'
-        ]));
-
+        $producto = Producto::create($request->validated());
         return response()->json($producto, 201);
     }
 
@@ -64,13 +55,13 @@ class ProductoController extends Controller
      */
     public function show(Producto $producto)
     {
-        $producto = Producto::with([
+        $producto->load([
             'categoria',
             'marcaMaterial.marca',
             'marcaMaterial.tipo_material',
             'codigoColor'
-        ])->findOrFail($producto->id_producto);
-
+        ]);
+    
         return response()->json($producto);
     }
 

@@ -4,15 +4,23 @@ namespace App\Http\Controllers;
 
 use App\Models\Marca;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controller;
 
 class MarcaController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('can:ver marcas')->only(['index', 'show']);
+        $this->middleware('can:crear marcas')->only(['store', 'create']);
+        $this->middleware('can:editar marcas')->only(['update', 'edit']);
+        $this->middleware('can:eliminar marcas')->only(['destroy']);
+    }
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        //
+        return Marca::all();
     }
 
     /**
@@ -20,7 +28,7 @@ class MarcaController extends Controller
      */
     public function create()
     {
-        //
+        
     }
 
     /**
@@ -28,7 +36,9 @@ class MarcaController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        return Marca::create($request->only(
+            'nombre_marca'
+        ));
     }
 
     /**
@@ -36,7 +46,7 @@ class MarcaController extends Controller
      */
     public function show(Marca $marca)
     {
-        //
+        return Marca::findOrFail($marca->id_marca);
     }
 
     /**

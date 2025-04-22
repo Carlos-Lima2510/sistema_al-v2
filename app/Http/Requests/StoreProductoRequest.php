@@ -30,6 +30,7 @@ class StoreProductoRequest extends FormRequest
             'stock' => 'required|integer',
             'descripcion' => 'nullable|string',
             'activo' => 'required|boolean',
+            'fecha_registro' => 'required|date'
         ];
     }
 }
