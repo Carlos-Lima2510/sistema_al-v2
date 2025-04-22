@@ -62,7 +62,7 @@ class ProductoController extends Controller
             'codigoColor'
         ]);
     
-        return response()->json($producto);
+        return new ProductoResource($producto);
     }
 
     /**

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreCategoriaRequest;
 use App\Models\Categoria;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
@@ -35,11 +36,10 @@ class CategoriaController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreCategoriaRequest $request)
     {
-        return Categoria::create($request->only(
-            'nombre_categoria'
-        ));
+        $categoria = Categoria::create($request->validated());
+        return response()->json($categoria, 201);
     }
 
     /**
