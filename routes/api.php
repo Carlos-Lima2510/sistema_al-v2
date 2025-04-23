@@ -10,6 +10,7 @@ use App\Http\Controllers\AuthController;
 Route::post('/login', [AuthController::class, 'login']);
 
 Route::middleware('auth:sanctum')->group(function () {
+    Route::get('productos/activos', [ProductoController::class, 'activos']);
     // Rutas protegidas
     Route::apiResource('productos', ProductoController::class);
     Route::apiResource('marcas', MarcaController::class);
