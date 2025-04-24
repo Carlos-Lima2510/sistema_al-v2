@@ -36,10 +36,11 @@ WORKDIR /var/www
 
 COPY . .
 
-RUN composer install && \
-    chown -R www-data:www-data /var/www && \
-    chmod 777 -R storage/ && \
-    chmod 777 -R vendor/
+RUN composer install
+
+RUN chown -R www-data:www-data /var/www
+RUN chmod 777 -R storage/
+RUN chmod 777 -R vendor/
 
 EXPOSE 9000
 
