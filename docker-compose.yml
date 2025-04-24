@@ -6,8 +6,6 @@ services:
     image: laravel12-app
     container_name: laravel_app
     restart: unless-stopped
-    volumes:
-      - .:/var/www
     depends_on:
       - mysql
     env_file:
