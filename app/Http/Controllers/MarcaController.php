@@ -2,17 +2,31 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\MarcaResource;
 use App\Models\Marca;
+use App\Services\MarcaService;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controller;
 
 class MarcaController extends Controller
 {
+    protected $service;
+    public function __construct(MarcaService $service)
+    {
+        $this->middleware('can:ver marcas')->only(['index', 'show']);
+        $this->middleware('can:crear marcas')->only(['store', 'create']);
+        $this->middleware('can:editar marcas')->only(['update', 'edit']);
+        $this->middleware('can:eliminar marcas')->only(['destroy']);
+
+        $this->service = $service;
+    }
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        //
+        $marcas = $this->service->listarMarcas();
+        return MarcaResource::collection($marcas);
     }
 
     /**
@@ -20,7 +34,7 @@ class MarcaController extends Controller
      */
     public function create()
     {
-        //
+        
     }
 
     /**
@@ -28,7 +42,9 @@ class MarcaController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        return Marca::create($request->only(
+            'nombre_marca'
+        ));
     }
 
     /**
@@ -36,7 +52,8 @@ class MarcaController extends Controller
      */
     public function show(Marca $marca)
     {
-        //
+        $marca = $this->service->getMarca($marca->id_marca);
+        return new MarcaResource($marca);
     }
 
     /**
