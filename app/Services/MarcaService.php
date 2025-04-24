@@ -20,19 +20,10 @@ class MarcaService
 
     public function getMarca($id)
     {
-        if ($this->marcaExistente($id)) {
+        if ($this->repo->exists($id)) {
             return $this->repo->findById($id);
         } else {
             return 'Marca no existe';
-        }
-    }
-
-    private function marcaExistente($id)
-    {
-        if (Marca::where("id_marca", $id)->exists()) {
-            return true;
-        } else {
-            return false;
         }
     }
 }

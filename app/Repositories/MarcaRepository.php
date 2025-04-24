@@ -15,4 +15,9 @@ class MarcaRepository
     {
         return Marca::find($id);
     }
+
+    public function exists($id)
+    {
+        return Marca::where("id_marca", $id)->exists();
+    }
 }
