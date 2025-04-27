@@ -24,6 +24,10 @@ class RolesYPermisosSeeder extends Seeder
             'crear categorias',
             'editar categorias',
             'eliminar categorias',
+            'ver materiales',
+            'crear materiales',
+            'editar materiales',
+            'eliminar materiales',
             'ver marcas',
             'crear marcas',
             'editar marcas',
@@ -57,6 +61,9 @@ class RolesYPermisosSeeder extends Seeder
             'ver productos',
             'crear productos',
             'editar productos',
+            'ver materiales',
+            'crear materiales',
+            'editar materiales',
             'ver categorias',
             'crear categorias',
             'ver marcas',
@@ -65,7 +72,7 @@ class RolesYPermisosSeeder extends Seeder
             'ver colores',
             'crear colores',
             'editar colores',
-            'eliminar colores',
+            'eliminar colores'
         ]);
 
         // Asignar rol a un usuario (ejemplo al user con ID 1)

@@ -2,17 +2,31 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreTipoMaterialRequest;
 use App\Models\TipoMaterial;
+use App\Services\TipoMaterialService;
+use App\Http\Resources\TipoMaterialResource;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controller;
 
 class TipoMaterialController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    protected $service;
+
+    public function __construct(TipoMaterialService $service)
+    {
+        $this->middleware('can:ver materiales')->only(['index', 'show']);
+        $this->middleware('can:crear materiales')->only(['store', 'create']);
+        $this->middleware('can:editar materiales')->only(['update', 'edit']);
+        $this->middleware('can:eliminar materiales')->only(['destroy']);
+
+        $this->service = $service;
+    }
+    
     public function index()
     {
-        //
+        $materiales = $this->service->listarMateriales();
+        return TipoMaterialResource::collection($materiales);
     }
 
     /**
@@ -20,15 +34,16 @@ class TipoMaterialController extends Controller
      */
     public function create()
     {
-        //
+        
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreTipoMaterialRequest $request)
     {
-        //
+        $material = $this->service->crear($request->validated());
+        return response()->json(new TipoMaterialResource($material), 201);
     }
 
     /**
