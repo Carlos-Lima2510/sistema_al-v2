@@ -42,6 +42,7 @@ class RolesYPermisosSeeder extends Seeder
             'eliminar usuarios',
             'ver roles',
             'crear roles',
+            'asignar roles',
             'editar roles',
             'eliminar roles',
         ];

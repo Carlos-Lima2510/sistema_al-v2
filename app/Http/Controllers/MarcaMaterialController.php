@@ -12,7 +12,7 @@ class MarcaMaterialController extends Controller
      */
     public function index()
     {
-        //
+        $marcaMaterials = MarcaMaterial::all();
     }
 
     /**
