@@ -11,7 +11,7 @@ class StoreCodigoColorRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,9 @@ class StoreCodigoColorRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'codigo' => 'required|string',
+            'nombre_color' => 'required|string',
+            'id_marca_material' => 'required|numeric'
         ];
     }
 }
