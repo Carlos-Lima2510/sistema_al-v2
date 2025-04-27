@@ -39,6 +39,21 @@ services:
       - app
     networks:
       - sistema_al_network
+  db_ui:
+    image: phpmyadmin
+    container_name: phpmyadmin
+    restart: unless-stopped
+    environment:
+      PMA_HOST: mysql
+      PMA_PORT: 3306
+      PMA_USER: root
+      PMA_PASSWORD: secret
+    ports:
+      - 8081:80
+    depends_on:
+      - mysql
+    networks:
+      - sistema_al_network
 
 volumes:
   dbdata:

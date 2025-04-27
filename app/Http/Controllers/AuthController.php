@@ -18,7 +18,7 @@ class AuthController extends Controller
         if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
             $user = Auth::user();
 
-            $token = $user->createToken('sistema_al')->plainTextToken;
+            $token = $user->createToken(getenv('DB_DATABASE'))->plainTextToken;
 
             return response()->json([
                 'message' => 'Inicio de sesión exitoso',
