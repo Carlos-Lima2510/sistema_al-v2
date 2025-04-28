@@ -23,8 +23,15 @@ class ProductoDetailedResource extends JsonResource
             'categoria' => $this->whenLoaded('categoria'),
             'marca_material' => $this->whenLoaded('marcaMaterial', function () {
                 return [
-                    'marca' => $this->marcaMaterial->marca->nombre_marca,
-                    'tipo_material' => $this->marcaMaterial->tipo_material->nombre_material,
+                    'id_marca_material' => $this->marcaMaterial->id_marca_material,
+                    'marca' => $this->marcaMaterial->marca ? [
+                        'id_marca' => $this->marcaMaterial->marca->id_marca,
+                        'nombre_marca' => $this->marcaMaterial->marca->nombre_marca,
+                    ] : null,
+                    'tipo_material' => $this->marcaMaterial->tipo_material ? [
+                        'id_tipo_material' => $this->marcaMaterial->tipo_material->id_tipo_material,
+                        'nombre_material' => $this->marcaMaterial->tipo_material->nombre_material,
+                    ] : null,
                 ];
             }),
             'codigo_color' => $this->whenLoaded('codigoColor'),

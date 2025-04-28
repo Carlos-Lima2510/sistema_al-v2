@@ -20,4 +20,9 @@ class MarcaRepository
     {
         return Marca::where("id_marca", $id)->exists();
     }
+
+    public function create(array $data)
+    {
+        return Marca::create($data);
+    }
 }

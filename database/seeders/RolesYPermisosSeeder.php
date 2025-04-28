@@ -76,7 +76,7 @@ class RolesYPermisosSeeder extends Seeder
             'eliminar colores'
         ]);
 
-        // Asignar rol a un usuario (ejemplo al user con ID 1)
+        $user = User::create(['name' => 'admin', 'email' => 'admin@gmail.com', 'password' => bcrypt('password')]);
         $user = User::find(1);
         if ($user) {
             $user->assignRole('admin');

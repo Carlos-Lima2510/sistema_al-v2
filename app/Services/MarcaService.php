@@ -26,4 +26,9 @@ class MarcaService
             return 'Marca no existe';
         }
     }
+
+    public function crearMarca(array $data)
+    {
+        return $this->repo->create($data);
+    }
 }
