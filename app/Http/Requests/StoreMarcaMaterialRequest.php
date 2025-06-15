@@ -11,7 +11,7 @@ class StoreMarcaMaterialRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,8 @@ class StoreMarcaMaterialRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'id_marca' => ['required', 'integer', 'exists:marcas,id'],
+            'id_tipo_material' => ['required', 'integer', 'exists:materials,id'],
         ];
     }
 }

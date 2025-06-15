@@ -10,6 +10,8 @@ services:
       - mysql
     env_file:
       - .env
+    volumes:
+      - .:/var/www
     networks:
       - sistema_al_network
 

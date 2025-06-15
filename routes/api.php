@@ -8,6 +8,7 @@ use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CodigoColorController;
 use App\Http\Controllers\TipoMaterialController;
+use App\Http\Controllers\MarcaMaterialController;
 
 // Rutas públicas
 Route::post('/login', [AuthController::class, 'login']);
@@ -22,6 +23,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('categorias', CategoriaController::class);
     Route::apiResource('materiales', TipoMaterialController::class);
     Route::apiResource('codigo-color', CodigoColorController::class);
+    Route::apiResource('marca-material', MarcaMaterialController::class);
 });
 
 

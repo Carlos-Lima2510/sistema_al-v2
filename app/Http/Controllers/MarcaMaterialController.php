@@ -3,16 +3,30 @@
 namespace App\Http\Controllers;
 
 use App\Models\MarcaMaterial;
+use App\Services\MarcaMaterialService;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controller;
 
 class MarcaMaterialController extends Controller
 {
+    protected $service;
+
+    public function __construct(MarcaMaterialService $service)
+    {
+        $this->middleware('can:ver marcas')->only(['index', 'show']);
+        $this->middleware('can:crear marcas')->only(['store', 'create']);
+        $this->middleware('can:editar marcas')->only(['update', 'edit']);
+        $this->middleware('can:eliminar marcas')->only(['destroy']);
+
+        $this->service = $service;
+    }
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $marcaMaterials = MarcaMaterial::all();
+        $marcaMaterial = $this->service->listarMarcaMaterial();
+        return response()->json($marcaMaterial);
     }
 
     /**
@@ -28,7 +42,8 @@ class MarcaMaterialController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $marcaMaterial = $this->service->crearMarcaMaterial($request->all());
+        return response()->json($marcaMaterial, 201);
     }
 
     /**
