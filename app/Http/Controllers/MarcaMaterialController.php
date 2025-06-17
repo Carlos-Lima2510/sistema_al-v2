@@ -49,15 +49,8 @@ class MarcaMaterialController extends Controller
      */
     public function store(StoreMarcaMaterialRequest $request)
     {
-        DB::beginTransaction();
-        try {
-            $marcaMaterial = $this->service->crearMarcaMaterial($request->validated());
-            DB::commit();
-            return response()->json(new MarcaMaterialResource($marcaMaterial), 201);
-        } catch (\Exception $e) {
-            DB::rollBack();
-            return response()->json(['error' => $e->getMessage()], 500);
-        }
+        $marcaMaterial = $this->service->crearMarcaMaterial($request->validated());
+        return response()->json(new MarcaMaterialResource($marcaMaterial), 201);
     }
 
     /**
