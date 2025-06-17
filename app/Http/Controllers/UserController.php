@@ -46,9 +46,9 @@ class UserController extends Controller
 
     public function asignarRol(UserAsignarRolRequest $request, User $usuario)
     {
-        $rolNombre = $request->validated('rol');
+        $rol = $request->validated();
 
-        $usuario = $this->roleService->asignarRol($usuario, $rolNombre);
+        $usuario = $this->roleService->asignarRol($usuario, $rol);
         return new UserAsignarRolResource($usuario);
     }
 

@@ -13,7 +13,7 @@ class CodigoColorRepository
 
     public function getCodigoColor($id)
     {
-        return CodigoColor::find($id);
+        return CodigoColor::findOrFail($id);
     }
 
     public function createCodigoColor($data)
