@@ -13,12 +13,7 @@ class MarcaRepository
 
     public function findById($id)
     {
-        return Marca::find($id);
-    }
-
-    public function exists($id)
-    {
-        return Marca::where("id_marca", $id)->exists();
+        return Marca::findOrFail($id);
     }
 
     public function create(array $data)

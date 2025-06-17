@@ -22,7 +22,7 @@ class StoreMarcaRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'nombre_marca' => 'required|string',
+            'nombre_marca' => 'required|string|unique:marca,nombre_marca',
         ];
     }
 }

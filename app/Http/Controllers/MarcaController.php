@@ -44,15 +44,8 @@ class MarcaController extends Controller
      */
     public function store(StoreMarcaRequest $request)
     {
-        DB::beginTransaction();
-        try {
-            $marca = $this->service->crearMarca($request->validated());
-            DB::commit();
-            return response()->json(new MarcaResource($marca), 201);
-        } catch (\Exception $e) {
-            DB::rollBack();
-            return response()->json(['error' => $e->getMessage()], 500);
-        }
+        $marca = $this->service->crearMarca($request->validated());
+        return response()->json(new MarcaResource($marca), 201);
     }
 
     /**
