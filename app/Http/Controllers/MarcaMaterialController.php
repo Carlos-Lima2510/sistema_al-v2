@@ -4,7 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Models\MarcaMaterial;
 use App\Services\MarcaMaterialService;
+use App\Http\Requests\StoreMarcaMaterialRequest;
+use App\Http\Resources\MarcaMaterialResource;
+use App\Exceptions\MarcaMaterialException;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Routing\Controller;
 
 class MarcaMaterialController extends Controller
@@ -23,10 +27,13 @@ class MarcaMaterialController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $marcaMaterial = $this->service->listarMarcaMaterial();
-        return response()->json($marcaMaterial);
+        $filtros = $request->only(['marca', 'tipo_material']);
+
+        return MarcaMaterialResource::collection(
+            $this->service->filtrarMarcaMaterial($filtros)
+        );
     }
 
     /**
@@ -40,10 +47,17 @@ class MarcaMaterialController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreMarcaMaterialRequest $request)
     {
-        $marcaMaterial = $this->service->crearMarcaMaterial($request->all());
-        return response()->json($marcaMaterial, 201);
+        DB::beginTransaction();
+        try {
+            $marcaMaterial = $this->service->crearMarcaMaterial($request->validated());
+            DB::commit();
+            return response()->json(new MarcaMaterialResource($marcaMaterial), 201);
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
     }
 
     /**
@@ -51,7 +65,12 @@ class MarcaMaterialController extends Controller
      */
     public function show(MarcaMaterial $marcaMaterial)
     {
-        //
+        try {
+            $marcaMaterial = $this->service->obtenerMarcaMaterialPorId($marcaMaterial->id_marca_material);
+            return response()->json(new MarcaMaterialResource($marcaMaterial), 200);
+        } catch (MarcaMaterialException $e) {
+            return response()->json(['message' => $e->getMessage()], 404);
+        }
     }
 
     /**

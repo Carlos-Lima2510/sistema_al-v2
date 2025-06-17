@@ -8,6 +8,7 @@ use App\Models\Marca;
 use App\Services\MarcaService;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\DB;
 
 class MarcaController extends Controller
 {
@@ -43,8 +44,15 @@ class MarcaController extends Controller
      */
     public function store(StoreMarcaRequest $request)
     {
-        $marca = $this->service->crearMarca($request->validated());
-        return response()->json(new MarcaResource($marca), 201);
+        DB::beginTransaction();
+        try {
+            $marca = $this->service->crearMarca($request->validated());
+            DB::commit();
+            return response()->json(new MarcaResource($marca), 201);
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
     }
 
     /**

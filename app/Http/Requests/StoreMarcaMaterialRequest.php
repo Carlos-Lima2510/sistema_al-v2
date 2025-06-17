@@ -22,8 +22,8 @@ class StoreMarcaMaterialRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'id_marca' => ['required', 'integer', 'exists:marcas,id'],
-            'id_tipo_material' => ['required', 'integer', 'exists:materials,id'],
+            'id_marca' => ['required', 'integer', 'exists:marca,id_marca'],
+            'id_tipo_material' => ['required', 'integer', 'exists:tipo_material,id_tipo_material'],
         ];
     }
 }
