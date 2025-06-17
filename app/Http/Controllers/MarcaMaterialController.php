@@ -58,12 +58,8 @@ class MarcaMaterialController extends Controller
      */
     public function show(MarcaMaterial $marcaMaterial)
     {
-        try {
-            $marcaMaterial = $this->service->obtenerMarcaMaterialPorId($marcaMaterial->id_marca_material);
-            return response()->json(new MarcaMaterialResource($marcaMaterial), 200);
-        } catch (MarcaMaterialException $e) {
-            return response()->json(['message' => $e->getMessage()], 404);
-        }
+        $marcaMaterial = $this->service->obtenerMarcaMaterialPorId($marcaMaterial->id_marca_material);
+        return response()->json(new MarcaMaterialResource($marcaMaterial));
     }
 
     /**
