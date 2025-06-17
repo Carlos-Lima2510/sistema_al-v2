@@ -20,10 +20,11 @@ class MarcaService
 
     public function getMarca($id)
     {
-        if ($this->repo->exists($id)) {
-            return $this->repo->findById($id);
-        } else {
-            return 'Marca no existe';
-        }
+        return $this->repo->findById($id);
+    }
+
+    public function crearMarca(array $data)
+    {
+        return $this->repo->create($data);
     }
 }

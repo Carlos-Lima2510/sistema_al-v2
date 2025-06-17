@@ -3,16 +3,37 @@
 namespace App\Http\Controllers;
 
 use App\Models\MarcaMaterial;
+use App\Services\MarcaMaterialService;
+use App\Http\Requests\StoreMarcaMaterialRequest;
+use App\Http\Resources\MarcaMaterialResource;
+use App\Exceptions\MarcaMaterialException;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Routing\Controller;
 
 class MarcaMaterialController extends Controller
 {
+    protected $service;
+
+    public function __construct(MarcaMaterialService $service)
+    {
+        $this->middleware('can:ver marcas')->only(['index', 'show']);
+        $this->middleware('can:crear marcas')->only(['store', 'create']);
+        $this->middleware('can:editar marcas')->only(['update', 'edit']);
+        $this->middleware('can:eliminar marcas')->only(['destroy']);
+
+        $this->service = $service;
+    }
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $filtros = $request->only(['marca', 'tipo_material']);
+
+        return MarcaMaterialResource::collection(
+            $this->service->filtrarMarcaMaterial($filtros)
+        );
     }
 
     /**
@@ -26,9 +47,10 @@ class MarcaMaterialController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreMarcaMaterialRequest $request)
     {
-        //
+        $marcaMaterial = $this->service->crearMarcaMaterial($request->validated());
+        return response()->json(new MarcaMaterialResource($marcaMaterial), 201);
     }
 
     /**
@@ -36,7 +58,8 @@ class MarcaMaterialController extends Controller
      */
     public function show(MarcaMaterial $marcaMaterial)
     {
-        //
+        $marcaMaterial = $this->service->obtenerMarcaMaterialPorId($marcaMaterial->id_marca_material);
+        return response()->json(new MarcaMaterialResource($marcaMaterial));
     }
 
     /**

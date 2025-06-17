@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreMarcaRequest;
 use App\Http\Resources\MarcaResource;
 use App\Models\Marca;
 use App\Services\MarcaService;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\DB;
 
 class MarcaController extends Controller
 {
@@ -40,11 +42,10 @@ class MarcaController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreMarcaRequest $request)
     {
-        return Marca::create($request->only(
-            'nombre_marca'
-        ));
+        $marca = $this->service->crearMarca($request->validated());
+        return response()->json(new MarcaResource($marca), 201);
     }
 
     /**
