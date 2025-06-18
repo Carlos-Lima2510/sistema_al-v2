@@ -6,15 +6,21 @@ use App\Http\Requests\StoreCategoriaRequest;
 use App\Models\Categoria;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use App\Services\CategoriaService;
+use App\Http\Resources\CategoriaResource;
+use App\Http\Resources\CategoriaCollection;
 
 class CategoriaController extends Controller
 {
-    public function __construct()
+    protected $service;
+    public function __construct(CategoriaService $service)
     {
         $this->middleware('can:ver categorias')->only(['index', 'show']);
         $this->middleware('can:crear categorias')->only(['store', 'create']);
         $this->middleware('can:editar categorias')->only(['update', 'edit']);
         $this->middleware('can:eliminar categorias')->only(['destroy']);
+
+        $this->service = $service;
     }
 
     /**
@@ -22,7 +28,8 @@ class CategoriaController extends Controller
      */
     public function index()
     {
-        return Categoria::all();
+        $categorias = $this->service->listarCategorias();
+        return new CategoriaCollection($categorias);
     }
 
     /**
@@ -38,8 +45,8 @@ class CategoriaController extends Controller
      */
     public function store(StoreCategoriaRequest $request)
     {
-        $categoria = Categoria::create($request->validated());
-        return response()->json($categoria, 201);
+        $categoria = $this->service->crear($request->validated());
+        return response()->json(new CategoriaResource($categoria), 201);
     }
 
     /**
@@ -47,7 +54,8 @@ class CategoriaController extends Controller
      */
     public function show(Categoria $categoria)
     {
-        return Categoria::findOrFail($categoria->id_categoria);
+        $categoria = $this->service->obtenerPorId($categoria->id_categoria);
+        return new CategoriaResource($categoria);
     }
 
     /**
