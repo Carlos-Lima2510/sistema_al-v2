@@ -16,6 +16,16 @@ class ProductoRepository
         ])->get();
     }
 
+    public function getAllPaginated(int $perPage = 10)
+    {
+        return Producto::with([
+            'categoria',
+            'marcaMaterial.marca',
+            'marcaMaterial.tipo_material',
+            'codigoColor'
+        ])->paginate($perPage);
+    }
+
     public function getActive()
     {
         return Producto::with([

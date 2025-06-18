@@ -13,9 +13,9 @@ class ProductoService
         $this->repo = $repo;
     }
 
-    public function listarTodos()
+    public function listarTodos($perPage)
     {
-        return $this->repo->getAll();
+        return $this->repo->getAllPaginated($perPage);
     }
 
     public function listarActivos()

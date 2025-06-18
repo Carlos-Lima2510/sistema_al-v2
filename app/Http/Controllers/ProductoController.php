@@ -8,6 +8,7 @@ use App\Services\ProductoService;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use App\Http\Requests\StoreProductoRequest;
+use App\Http\Resources\ProductoCollection;
 use App\Http\Resources\ProductoResource;
 
 class ProductoController extends Controller
@@ -25,10 +26,11 @@ class ProductoController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $productos = $this->service->listarTodos();
-        return ProductoResource::collection($productos);
+        $perPage = $request->input('per_page', 10);
+        $productos = $this->service->listarTodos($perPage);
+        return new ProductoCollection($productos);
     }
 
     public function activos()
