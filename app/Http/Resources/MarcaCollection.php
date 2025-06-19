@@ -20,7 +20,7 @@ class MarcaCollection extends ResourceCollection
     {
         return [
             'success' => true,
-            'message' => 'Marcas recuperados correctamente',
+            'message' => 'Marcas recuperadas correctamente',
         ];
     }
 }

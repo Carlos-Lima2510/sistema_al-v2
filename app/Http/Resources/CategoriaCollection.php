@@ -15,10 +15,7 @@ class CategoriaCollection extends ResourceCollection
     {
         return [
             'success' => true,
-            'message' => 'Categorías recuperadas correctamente',
-            'meta' => [
-                'total' => $this->collection->count(),
-            ]
+            'message' => 'Categorías recuperadas correctamente'
         ];
     }
 }
