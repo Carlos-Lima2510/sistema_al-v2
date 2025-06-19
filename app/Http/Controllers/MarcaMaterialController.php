@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\MarcaMaterialCollection;
 use App\Models\MarcaMaterial;
 use App\Services\MarcaMaterialService;
 use App\Http\Requests\StoreMarcaMaterialRequest;
@@ -31,7 +32,7 @@ class MarcaMaterialController extends Controller
     {
         $filtros = $request->only(['marca', 'tipo_material']);
 
-        return MarcaMaterialResource::collection(
+        return new MarcaMaterialCollection(
             $this->service->filtrarMarcaMaterial($filtros)
         );
     }
