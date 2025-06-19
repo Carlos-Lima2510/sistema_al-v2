@@ -6,16 +6,6 @@ use App\Models\Producto;
 
 class ProductoRepository
 {
-    public function getAll()
-    {
-        return Producto::with([
-            'categoria',
-            'marcaMaterial.marca',
-            'marcaMaterial.tipo_material',
-            'codigoColor'
-        ])->get();
-    }
-
     public function getAllPaginated(int $perPage = 10)
     {
         return Producto::with([

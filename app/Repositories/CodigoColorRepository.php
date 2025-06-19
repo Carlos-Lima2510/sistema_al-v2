@@ -6,9 +6,12 @@ use App\Models\CodigoColor;
 
 class CodigoColorRepository
 {
-    public function getAll()
+    public function getAllPaginated(int $perPage = 10)
     {
-        return CodigoColor::all();
+        return CodigoColor::with([
+            'marcaMaterial.marca',
+            'marcaMaterial.tipo_material',
+        ])->paginate($perPage);
     }
 
     public function getCodigoColor($id)

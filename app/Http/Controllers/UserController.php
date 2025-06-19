@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\UserAsignarRolRequest;
 use App\Http\Requests\UserRequest;
 use App\Http\Resources\UserAsignarRolResource;
+use App\Http\Resources\UserCollection;
 use App\Http\Resources\UserResource;
 use App\Services\RoleService;
 use App\Services\UserService;
@@ -33,7 +34,7 @@ class UserController extends Controller
     public function index()
     {
         $usuarios = $this->service->listarUsuarios();
-        return UserResource::collection($usuarios);
+        return new UserCollection($usuarios);
     }
 
     /**

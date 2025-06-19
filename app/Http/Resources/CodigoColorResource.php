@@ -18,7 +18,19 @@ class CodigoColorResource extends JsonResource
             'id' => $this->id_codigo_color,
             'codigo' => $this->codigo,
             'nombre_color' => $this->nombre_color,
-            'id_marca_material' => $this->id_marca_material,
+            'marca_material' => $this->whenLoaded('marcaMaterial', function () {
+                return [
+                    'id_marca_material' => $this->marcaMaterial->id_marca_material,
+                    'marca' => $this->marcaMaterial->marca ? [
+                        'id_marca' => $this->marcaMaterial->marca->id_marca,
+                        'nombre_marca' => $this->marcaMaterial->marca->nombre_marca,
+                    ] : null,
+                    'tipo_material' => $this->marcaMaterial->tipo_material ? [
+                        'id_tipo_material' => $this->marcaMaterial->tipo_material->id_tipo_material,
+                        'nombre_material' => $this->marcaMaterial->tipo_material->nombre_material,
+                    ] : null,
+                ];
+            }),
         ];
     }
 }
