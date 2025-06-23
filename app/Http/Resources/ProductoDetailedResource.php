@@ -17,6 +17,7 @@ class ProductoDetailedResource extends JsonResource
             'id' => $this->id_producto,
             'descripcion' => $this->descripcion,
             'costo_base' => $this->costo_base,
+            'tipo_valuacion' => $this->tipo_valuacion,
             'activo' => $this->activo,
             'categoria' => $this->whenLoaded('categoria'),
             'marca_material' => $this->whenLoaded('marcaMaterial', function () {
