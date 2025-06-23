@@ -43,6 +43,6 @@ class Producto extends Model
 
     public function variantes()
     {
-        return $this->hasMany(Variante::class);
+        return $this->hasMany(Variante::class, 'id_variantes');
     }
 }

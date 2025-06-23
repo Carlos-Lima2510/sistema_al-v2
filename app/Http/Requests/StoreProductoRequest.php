@@ -25,9 +25,7 @@ class StoreProductoRequest extends FormRequest
             'id_categoria' => 'required|exists:categoria,id_categoria',
             'id_marca_material' => 'required|exists:marca_material,id_marca_material',
             'id_codigo_color' => 'required|exists:codigo_color,id_codigo_color',
-            'precio_unitario' => 'required|numeric',
-            'precio_por_mayor' => 'required|numeric',
-            'stock' => 'required|integer',
+            'costo_base' => 'required|numeric',
             'descripcion' => 'nullable|string',
             'activo' => 'required|boolean',
             'fecha_registro' => 'required|date'
