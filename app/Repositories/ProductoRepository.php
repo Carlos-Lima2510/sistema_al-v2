@@ -12,7 +12,8 @@ class ProductoRepository
             'categoria',
             'marcaMaterial.marca',
             'marcaMaterial.tipo_material',
-            'codigoColor'
+            'codigoColor',
+            'variantes'
         ])->paginate($perPage);
     }
 
@@ -22,7 +23,8 @@ class ProductoRepository
             'categoria',
             'marcaMaterial.marca',
             'marcaMaterial.tipo_material',
-            'codigoColor'
+            'codigoColor',
+            'variantes',
         ])->where('activo', 1)->get();
     }
     public function findWithRelations(Producto $producto)
@@ -31,7 +33,8 @@ class ProductoRepository
             'categoria',
             'marcaMaterial.marca',
             'marcaMaterial.tipo_material',
-            'codigoColor'
+            'codigoColor',
+            'variantes',
         ]);
     }
 

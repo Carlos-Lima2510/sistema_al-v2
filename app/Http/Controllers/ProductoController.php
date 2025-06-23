@@ -30,7 +30,13 @@ class ProductoController extends Controller
     {
         $perPage = $request->input('per_page', 10);
         $productos = $this->service->listarTodos($perPage);
-        return new ProductoCollection($productos);
+
+        return response()->json([
+            'data' => ProductoResource::collection($productos->items()),
+            'total' => $productos->total(),
+            'success' => true,
+            'message' => 'Productos recuperados correctamente'
+        ]);
     }
 
     public function activos()
@@ -42,10 +48,7 @@ class ProductoController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
-    {
-
-    }
+    public function create() {}
 
     /**
      * Store a newly created resource in storage.

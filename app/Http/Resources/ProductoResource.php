@@ -21,6 +21,7 @@ class ProductoResource extends JsonResource
             'categoria' => $this->categoria->nombre_categoria,
             'marca' => $this->marcaMaterial->marca->nombre_marca,
             'material' => $this->marcaMaterial->tipo_material->nombre_material,
+            'variantes' => VarianteResource::collection($this->variantes),
             'color' => $this->codigoColor->nombre_color,
             'fecha_registro' => $this->fecha_registro,
             'created_at' => $this->created_at,
