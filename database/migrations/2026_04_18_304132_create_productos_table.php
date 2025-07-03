@@ -16,11 +16,10 @@ return new class extends Migration
             $table->unsignedBigInteger('id_categoria');
             $table->unsignedBigInteger('id_marca_material');
             $table->unsignedBigInteger('id_codigo_color');
-            $table->decimal('precio_unitario');
-            $table->decimal('precio_por_mayor');
+            $table->decimal('costo_base');
+            $table->enum('tipo_valuacion', ['POR_PESO', 'FIJO']);
             $table->boolean('activo');
             $table->text('descripcion');
-            $table->integer('stock');
             $table->dateTime('fecha_registro');
 
             $table->foreign('id_codigo_color')

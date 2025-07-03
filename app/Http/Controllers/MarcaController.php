@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreMarcaRequest;
+use App\Http\Resources\MarcaCollection;
 use App\Http\Resources\MarcaResource;
 use App\Models\Marca;
 use App\Services\MarcaService;
@@ -28,7 +29,7 @@ class MarcaController extends Controller
     public function index()
     {
         $marcas = $this->service->listarMarcas();
-        return MarcaResource::collection($marcas);
+        return new MarcaCollection($marcas);
     }
 
     /**

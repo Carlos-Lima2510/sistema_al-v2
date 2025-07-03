@@ -2,19 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Resources\ProductoDetailedResource;
-use App\Models\Producto;
-use App\Services\ProductoService;
+use App\Http\Resources\VarianteResource;
+use App\Services\VarianteService;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
-use App\Http\Requests\StoreProductoRequest;
-use App\Http\Resources\ProductoCollection;
-use App\Http\Resources\ProductoResource;
+use \App\Models\Variante;
+use \App\Models\Producto;
+use \App\Http\Requests\StoreVarianteRequest;
 
-class ProductoController extends Controller
+class VarianteController extends Controller
 {
     protected $service;
-    public function __construct(ProductoService $service)
+    public function __construct(VarianteService $service)
     {
         $this->middleware('can:ver productos')->only(['index', 'show']);
         $this->middleware('can:crear productos')->only(['store', 'create']);
@@ -29,22 +28,15 @@ class ProductoController extends Controller
     public function index(Request $request)
     {
         $perPage = $request->input('per_page', 10);
-        $productos = $this->service->listarTodos($perPage);
+        $variantes = $this->service->listarTodos($perPage);
 
         return response()->json([
-            'data' => ProductoResource::collection($productos->items()),
-            'total' => $productos->total(),
+            'data' => VarianteResource::collection($variantes->items()),
+            'total' => $variantes->total(),
             'success' => true,
-            'message' => 'Productos recuperados correctamente'
+            'message' => 'Variantes recuperados correctamente'
         ]);
     }
-
-    public function activos()
-    {
-        $productos = $this->service->listarActivos();
-        return ProductoResource::collection($productos);
-    }
-
     /**
      * Show the form for creating a new resource.
      */
@@ -53,25 +45,25 @@ class ProductoController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreProductoRequest $request)
+    public function store(StoreVarianteRequest $request)
     {
-        $producto = $this->service->crear($request->validated());
-        return response()->json(new ProductoResource($producto), 201);
+        $variante = $this->service->crearVariante($request->validated());
+        return response()->json(new VarianteResource($variante), 201);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Producto $producto)
+    public function show(Variante $variante)
     {
-        $producto = $this->service->mostrar($producto);
-        return new ProductoDetailedResource($producto);
+        $variante = $this->service->obtenerPorId($variante->id_variantes);
+        return new VarianteResource($variante);
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Producto $producto)
+    public function edit(Variante $variante)
     {
         //
     }
@@ -79,7 +71,7 @@ class ProductoController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Producto $producto)
+    public function update(Request $request, Variante $variante)
     {
         //
     }
@@ -87,7 +79,7 @@ class ProductoController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Producto $producto)
+    public function destroy(Variante $variante)
     {
         //
     }

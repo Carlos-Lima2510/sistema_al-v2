@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreCodigoColorRequest;
+use App\Http\Resources\CodigoColorCollection;
 use App\Models\CodigoColor;
 use App\Http\Resources\CodigoColorResource;
 use App\Services\CodigoColorService;
@@ -23,10 +24,17 @@ class CodigoColorController extends Controller
         $this->service = $service;
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        $colores = $this->service->listarCodigosColor();
-        return CodigoColorResource::collection($colores);
+        $perPage = $request->input('per_page', 10);
+        $colores = $this->service->listarCodigosColor($perPage);
+
+        return response()->json([
+            'data' => CodigoColorResource::collection($colores->items()),
+            'total' => $colores->total(),
+            'success' => true,
+            'message' => 'Codigos de colores recuperados correctamente'
+        ]);
     }
 
     /**

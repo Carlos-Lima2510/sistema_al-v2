@@ -13,9 +13,9 @@ class CodigoColorService
         $this->repo = $repo;
     }
 
-    public function listarCodigosColor()
+    public function listarCodigosColor($perPage)
     {
-        return $this->repo->getAll();
+        return $this->repo->getAllPaginated($perPage);
     }
 
     public function crear($data)

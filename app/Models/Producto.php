@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+
 class Producto extends Model
 {
     /** @use HasFactory<\Database\Factories\ProductoFactory> */
@@ -17,27 +18,31 @@ class Producto extends Model
         'id_categoria',
         'id_marca_material',
         'id_codigo_color',
-        'precio_unitario',
-        'precio_por_mayor',
+        'costo_base',
+        'tipo_valuacion',
         'activo',
         'descripcion',
-        'stock',
         'fecha_registro'
     ];
     protected $hidden = ['created_at', 'updated_at'];
 
-    public function categoria(): BelongsTo 
+    public function categoria(): BelongsTo
     {
         return $this->belongsTo(Categoria::class, 'id_categoria');
     }
 
     public function marcaMaterial(): BelongsTo
     {
-        return $this->belongsTo(MarcaMaterial::class,'id_marca_material');
+        return $this->belongsTo(MarcaMaterial::class, 'id_marca_material');
     }
 
     public function codigoColor(): BelongsTo
     {
-        return $this->belongsTo(CodigoColor::class,'id_codigo_color');
+        return $this->belongsTo(CodigoColor::class, 'id_codigo_color');
+    }
+
+    public function variantes()
+    {
+        return $this->hasMany(Variante::class, 'id_producto', 'id_producto');
     }
 }

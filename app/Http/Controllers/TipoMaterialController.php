@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreTipoMaterialRequest;
+use App\Http\Resources\TipoMaterialCollection;
 use App\Models\TipoMaterial;
 use App\Services\TipoMaterialService;
 use App\Http\Resources\TipoMaterialResource;
@@ -26,7 +27,7 @@ class TipoMaterialController extends Controller
     public function index()
     {
         $materiales = $this->service->listarMateriales();
-        return TipoMaterialResource::collection($materiales);
+        return new TipoMaterialCollection($materiales);
     }
 
     /**
