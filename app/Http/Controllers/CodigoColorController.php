@@ -28,7 +28,13 @@ class CodigoColorController extends Controller
     {
         $perPage = $request->input('per_page', 10);
         $colores = $this->service->listarCodigosColor($perPage);
-        return new CodigoColorCollection($colores);
+
+        return response()->json([
+            'data' => CodigoColorResource::collection($colores->items()),
+            'total' => $colores->total(),
+            'success' => true,
+            'message' => 'Codigos de colores recuperados correctamente'
+        ]);
     }
 
     /**
