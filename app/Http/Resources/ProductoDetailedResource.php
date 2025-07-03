@@ -19,6 +19,7 @@ class ProductoDetailedResource extends JsonResource
             'costo_base' => $this->costo_base,
             'tipo_valuacion' => $this->tipo_valuacion,
             'activo' => $this->activo,
+            'variantes' => VarianteResource::collection($this->variantes),
             'categoria' => $this->whenLoaded('categoria'),
             'marca_material' => $this->whenLoaded('marcaMaterial', function () {
                 return [

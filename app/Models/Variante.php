@@ -18,7 +18,7 @@ class Variante extends Model
         'stock'
     ];
     protected $hidden = ['created_at', 'updated_at'];
-    public function productos(): BelongsTo 
+    public function producto(): BelongsTo 
     {
         return $this->belongsTo(Producto::class, 'id_producto');
     }
