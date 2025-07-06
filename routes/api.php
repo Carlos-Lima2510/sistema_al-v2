@@ -6,6 +6,7 @@ use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ClienteController;
 use App\Http\Controllers\CodigoColorController;
 use App\Http\Controllers\TipoMaterialController;
 use App\Http\Controllers\MarcaMaterialController;
@@ -26,6 +27,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('codigo-color', CodigoColorController::class);
     Route::apiResource('marca-material', MarcaMaterialController::class);
     Route::apiResource('variantes', VarianteController::class);
+    Route::apiResource('clientes', ClienteController::class);
 });
 
 
