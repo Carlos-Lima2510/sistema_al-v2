@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Model;
 
 class Cliente extends Model
@@ -24,4 +25,9 @@ class Cliente extends Model
         'notas'
     ];
     protected $hidden = ['created_at', 'updated_at'];
+
+    public function pedidoVenta(): HasMany
+    {
+        return $this->hasMany(Cliente::class, 'id_cliente');
+    }
 }

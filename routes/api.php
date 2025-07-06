@@ -10,6 +10,7 @@ use App\Http\Controllers\ClienteController;
 use App\Http\Controllers\CodigoColorController;
 use App\Http\Controllers\TipoMaterialController;
 use App\Http\Controllers\MarcaMaterialController;
+use App\Http\Controllers\PedidoVentaController;
 use App\Http\Controllers\VarianteController;
 
 // Rutas públicas
@@ -28,6 +29,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('marca-material', MarcaMaterialController::class);
     Route::apiResource('variantes', VarianteController::class);
     Route::apiResource('clientes', ClienteController::class);
+    Route::apiResource('pedidos-de-venta', PedidoVentaController::class);
 });
 
 
