@@ -11,7 +11,7 @@ class StorePedidoVentaRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,13 @@ class StorePedidoVentaRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'id_cliente' => 'required|exists:clientes,id_cliente',
+            'fecha_pedido' => 'required|date',
+            'metodo_pago' => 'required|string',
+            'estado' => 'required|string',
+            'total' => 'required|numeric',
+            'observaciones' => 'nullable|string'
         ];
     }
 }
+ 

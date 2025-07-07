@@ -18,7 +18,7 @@ return new class extends Migration
             $table->enum('metodo_pago', ['Efectivo', 'Transferencia', 'Tarjeta']);
             $table->enum('estado', ['Pendiente', 'En proceso', 'Completado', 'Cancelado']);
             $table->decimal('total');
-            $table->text('observaciones');
+            $table->text('observaciones')->nullable();
 
             $table->foreign('id_cliente')
                 ->references('id_cliente')

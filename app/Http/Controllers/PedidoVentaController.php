@@ -49,7 +49,8 @@ class PedidoVentaController extends Controller
      */
     public function store(StorePedidoVentaRequest $request)
     {
-        //
+        $pedido = $this->service->crearPedidoDeVenta($request->validated());
+        return response()->json(new PedidoVentaResource($pedido), 201);
     }
 
     /**
