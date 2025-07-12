@@ -22,4 +22,9 @@ class Variante extends Model
     {
         return $this->belongsTo(Producto::class, 'id_producto');
     }
+
+    public function especificaciones()
+    {
+        return $this->hasMany(VarianteEspecificacion::class, 'id_variantes');
+    }
 }
