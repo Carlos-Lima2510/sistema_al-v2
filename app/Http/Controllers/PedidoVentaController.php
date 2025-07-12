@@ -58,7 +58,7 @@ class PedidoVentaController extends Controller
      */
     public function show(PedidoVenta $pedidoVenta)
     {
-        //
+        $pedido = $this->service->obtenerPedidoDeVenta($pedidoVenta->id_pedido_venta);
     }
 
     /**
