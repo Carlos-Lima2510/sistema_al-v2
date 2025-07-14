@@ -21,7 +21,7 @@ class VarianteEspecificacion extends Model
 
     public function especificacion()
     {
-        return $this->belongsTo(Especificacion::class, 'id_especificacion');
+        return $this->belongsTo(Especificacion::class, 'id_especificaciones');
     }
 
     public function variante()
