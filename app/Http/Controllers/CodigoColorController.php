@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreCodigoColorRequest;
-use App\Http\Resources\CodigoColorCollection;
 use App\Models\CodigoColor;
 use App\Http\Resources\CodigoColorResource;
 use App\Services\CodigoColorService;
@@ -59,7 +58,8 @@ class CodigoColorController extends Controller
      */
     public function show(CodigoColor $codigoColor)
     {
-        //
+        $color = $this->service->obtenerCodigoColor($codigoColor->id_codigo_color);
+        return new CodigoColorResource($color);
     }
 
     /**

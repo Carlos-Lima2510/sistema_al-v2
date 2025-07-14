@@ -3,7 +3,6 @@
 namespace App\Repositories;
 
 use App\Models\Variante;
-use App\Models\Producto;
 
 class VarianteRepository
 {
