@@ -8,6 +8,7 @@ use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ClienteController;
 use App\Http\Controllers\CodigoColorController;
+use App\Http\Controllers\EspecificacionController;
 use App\Http\Controllers\TipoMaterialController;
 use App\Http\Controllers\MarcaMaterialController;
 use App\Http\Controllers\PedidoVentaController;
@@ -30,6 +31,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('variantes', VarianteController::class);
     Route::apiResource('clientes', ClienteController::class);
     Route::apiResource('pedidos-de-venta', PedidoVentaController::class);
+    Route::apiResource('especificaciones', EspecificacionController::class);
 });
 
 

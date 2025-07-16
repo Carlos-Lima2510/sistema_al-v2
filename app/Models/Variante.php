@@ -12,7 +12,6 @@ class Variante extends Model
     public $timestamps = true;
     protected $fillable = [
         'id_producto',
-        'peso_libras',
         'precio_unitario',
         'precio_por_mayor',
         'stock'

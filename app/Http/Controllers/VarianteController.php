@@ -47,8 +47,8 @@ class VarianteController extends Controller
      */
     public function store(StoreVarianteRequest $request)
     {
-        $variante = $this->service->crearVariante($request->validated());
-        return response()->json(new VarianteResource($variante), 201);
+        $variante = $this->service->storeVarianteConEspecificaciones($request->validated());
+        return response()->json(['message' => 'Variante creada correctamente.', 'variante' => $variante], 201);
     }
 
     /**
