@@ -1,0 +1,26 @@
+@startuml
+' Definición del actor
+actor Usuario as U
+
+' Delimitación del sistema
+package "Sistema de Gestión de Pedidos de Venta" {
+  usecase "Crear pedido" as UC1
+  usecase "Confirmar pedido" as UC2
+  usecase "Confirmar pagos" as UC3
+  usecase "Registrar venta" as UC4
+  usecase "Consultar pedidos" as UC5
+}
+
+' Relaciones actor-casos de uso
+U --> UC1 : Inicia
+U --> UC2 : Inicia
+U --> UC3 : Inicia
+U --> UC5 : Inicia
+
+' Flujo interno entre casos de uso
+UC2 --> UC3 : Sigue a
+
+' Inclusiones explícitas
+UC3 --> UC4 : <<include>>
+
+@enduml

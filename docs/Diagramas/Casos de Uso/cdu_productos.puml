@@ -1,0 +1,23 @@
+@startuml
+actor Usuario as U
+
+package "Gestión de Productos" {
+  usecase "Listar productos" as UC1
+  usecase "Crear producto" as UC2
+  usecase "Editar producto" as UC3
+  usecase "Eliminar producto" as UC4
+  usecase "Consultar producto" as UC5
+}
+
+U --> UC1
+U --> UC2
+U --> UC3
+U --> UC4
+U --> UC5
+
+UC2 --> UC1 : <<include>> 
+UC3 --> UC1 : <<include>> 
+UC4 --> UC1 : <<include>> 
+UC5 --> UC1 : <<include>> 
+
+@enduml
