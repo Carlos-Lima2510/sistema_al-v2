@@ -28,15 +28,16 @@ class ProductoController extends Controller
      */
     public function index(Request $request)
     {
-        $perPage = $request->input('per_page', 10);
-        $productos = $this->service->listarTodos($perPage);
-
-        return response()->json([
-            'data' => ProductoResource::collection($productos->items()),
-            'total' => $productos->total(),
-            'success' => true,
-            'message' => 'Productos recuperados correctamente'
+        $filters = $request->only([
+            'id_categoria',
+            'id_marca',
+            'id_tipo_material',
+            'agotado',
         ]);
+
+        $productos = $this->service->listarFiltrados($filters, 10);
+
+        return response()->json($productos);
     }
 
     public function activos()

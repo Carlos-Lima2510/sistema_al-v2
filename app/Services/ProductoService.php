@@ -18,6 +18,11 @@ class ProductoService
         return $this->repo->getAllPaginated($perPage);
     }
 
+    public function listarFiltrados(array $filters, int $perPage = 10)
+    {
+        return $this->repo->getFilteredPaginatedProducts($filters, $perPage)
+    }
+
     public function listarActivos()
     {
         return $this->repo->getActive();

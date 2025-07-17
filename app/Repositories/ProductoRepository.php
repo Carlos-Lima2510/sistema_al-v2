@@ -17,6 +17,21 @@ class ProductoRepository
         ])->paginate($perPage);
     }
 
+    public function getFilteredPaginatedProducts(array $filters, int $perPage = 10)
+    {
+        $query = Producto::with([
+            'categoria',
+            'marcaMaterial.marca',
+            'marcaMaterial.tipo_material',
+            'codigoColor',
+            'variantes'
+        ]);
+
+        $filteredQuery = ProductoFilter::apply($query, $filters);
+
+        return $filteredQuery->paginate($perPage);
+    }
+
     public function getActive()
     {
         return Producto::with([
