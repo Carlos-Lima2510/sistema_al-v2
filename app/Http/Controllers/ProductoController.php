@@ -33,11 +33,17 @@ class ProductoController extends Controller
             'id_marca',
             'id_tipo_material',
             'agotado',
+            'especificaciones'
         ]);
 
         $productos = $this->service->listarFiltrados($filters, 10);
 
-        return response()->json($productos);
+        return response()->json([
+            'data' => ProductoResource::collection($productos),
+            'total' => $productos->total(),
+            'success' => true,
+            'message' => 'Productos recuperados correctamente'
+        ]);
     }
 
     public function activos()

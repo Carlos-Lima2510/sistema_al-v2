@@ -17,7 +17,8 @@ class EspecificacionResource extends JsonResource
         return [
             'id_especificaciones' => $this->id_especificaciones,
             'nombre_especificacion' => $this->nombre_especificacion,
-            'unidad' => $this->unidad
+            'unidad' => $this->unidad,
+            'valor' => $this->pivot->valor
         ];
     }
 }

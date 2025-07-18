@@ -13,7 +13,7 @@ class VarianteEspecificacion extends Model
 
     protected $fillable = [
         'id_variantes',
-        'id_especificacion',
+        'id_especificaciones',
         'valor',
     ];
 

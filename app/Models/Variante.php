@@ -17,13 +17,18 @@ class Variante extends Model
         'stock'
     ];
     protected $hidden = ['created_at', 'updated_at'];
-    public function producto(): BelongsTo 
+    public function producto(): BelongsTo
     {
         return $this->belongsTo(Producto::class, 'id_producto');
     }
 
     public function especificaciones()
     {
-        return $this->hasMany(VarianteEspecificacion::class, 'id_variantes');
+        return $this->belongsToMany(
+            Especificacion::class,
+            'variante_especificaciones',
+            'id_variantes',
+            'id_especificaciones'
+        )->withPivot('valor');
     }
 }

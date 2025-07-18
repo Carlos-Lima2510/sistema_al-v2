@@ -17,7 +17,6 @@ return new class extends Migration
             $table->unsignedBigInteger('id_marca_material');
             $table->unsignedBigInteger('id_codigo_color');
             $table->decimal('costo_base');
-            $table->enum('tipo_valuacion', ['POR_PESO', 'FIJO']);
             $table->boolean('activo');
             $table->text('descripcion');
             $table->dateTime('fecha_registro');

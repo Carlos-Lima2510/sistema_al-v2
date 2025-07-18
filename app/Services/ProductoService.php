@@ -20,7 +20,7 @@ class ProductoService
 
     public function listarFiltrados(array $filters, int $perPage = 10)
     {
-        return $this->repo->getFilteredPaginatedProducts($filters, $perPage)
+        return $this->repo->getFilteredPaginatedProducts($filters, $perPage);
     }
 
     public function listarActivos()

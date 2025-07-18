@@ -33,11 +33,11 @@ class VarianteService
         return DB::transaction(function () use ($data) {
             $variante = $this->varianteRepository->create($data);
 
-            foreach ($data['especificaciones'] as $esp) {
+            foreach ($data['especificaciones'] as $especificacion) {
                 $this->varianteEspecificacionRepository->create([
                     'id_variantes' => $variante->id_variantes,
-                    'id_especificaciones' => $esp['id_especificaciones'],
-                    'valor' => $esp['valor'],
+                    'id_especificaciones' => $especificacion['id_especificaciones'],
+                    'valor' => $especificacion['valor'],
                 ]);
             }
 

@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\Models\Especificacion;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class VarianteResource extends JsonResource
@@ -13,6 +14,7 @@ class VarianteResource extends JsonResource
             'id_producto' => $this->id_producto,
             'precio_unitario' => $this->precio_unitario,
             'precio_por_mayor' => $this->precio_por_mayor,
+            'especificaciones' => EspecificacionResource::collection($this->especificaciones),
             'stock' => $this->stock,
         ];
     }

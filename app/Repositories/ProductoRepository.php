@@ -2,6 +2,7 @@
 
 namespace App\Repositories;
 
+use App\Filters\Producto\ProductoFilter;
 use App\Models\Producto;
 
 class ProductoRepository
@@ -24,8 +25,14 @@ class ProductoRepository
             'marcaMaterial.marca',
             'marcaMaterial.tipo_material',
             'codigoColor',
-            'variantes'
+            'variantes.especificaciones'
         ]);
+
+        if (isset($filters['especificaciones'])) {
+        $filters['especificaciones'] = is_string($filters['especificaciones'])
+            ? json_decode($filters['especificaciones'], true)
+            : $filters['especificaciones'];
+        }
 
         $filteredQuery = ProductoFilter::apply($query, $filters);
 
