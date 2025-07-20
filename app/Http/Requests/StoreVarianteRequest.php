@@ -23,7 +23,6 @@ class StoreVarianteRequest extends FormRequest
     {
         return [
             'id_producto' => 'required|exists:productos,id_producto',
-            'peso_libras' => 'nullable|numeric|min:0',
             'precio_unitario' => 'required|numeric|min:0',
             'precio_por_mayor' => 'nullable|numeric|min:0',
             'stock' => 'required|integer|min:0',

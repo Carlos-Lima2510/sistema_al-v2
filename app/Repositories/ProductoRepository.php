@@ -28,11 +28,11 @@ class ProductoRepository
             'variantes.especificaciones'
         ]);
 
-        if (isset($filters['especificaciones'])) {
-        $filters['especificaciones'] = is_string($filters['especificaciones'])
-            ? json_decode($filters['especificaciones'], true)
-            : $filters['especificaciones'];
-        }
+        // if (isset($filters['especificaciones'])) {
+        // $filters['especificaciones'] = is_string($filters['especificaciones'])
+        //     ? json_decode($filters['especificaciones'], true)
+        //     : $filters['especificaciones'];
+        // }
 
         $filteredQuery = ProductoFilter::apply($query, $filters);
 
@@ -58,6 +58,17 @@ class ProductoRepository
             'codigoColor',
             'variantes',
         ]);
+    }
+
+    public function getById($id)
+    {
+        return Producto::with([
+            'categoria',
+            'marcaMaterial.marca',
+            'marcaMaterial.tipo_material',
+            'codigoColor',
+            'variantes',
+        ])->findOrFail($id);
     }
 
     public function create(array $data): Producto

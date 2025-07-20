@@ -2,20 +2,23 @@
 
 namespace App\Services;
 
-use App\Repositories\VarianteEspecificacionRepository;
+use App\Repositories\EspecificacionRepository;
+use App\Repositories\ProductoRepository;
 use App\Repositories\VarianteRepository;
 use Illuminate\Support\Facades\DB;
 
 class VarianteService
 {
     protected $varianteRepository;
-    protected $varianteEspecificacionRepository;
+    protected $especificacionRepository;
+    protected $productoRepository;
 
 
-    public function __construct(VarianteRepository $varianteRepository, VarianteEspecificacionRepository $varianteEspecificacionRepository)
+    public function __construct(VarianteRepository $varianteRepository, EspecificacionRepository $especificacionRepository, ProductoRepository $productoRepository)
     {
         $this->varianteRepository = $varianteRepository;
-        $this->varianteEspecificacionRepository = $varianteEspecificacionRepository;
+        $this->especificacionRepository = $especificacionRepository;
+        $this->productoRepository = $productoRepository;
     }
 
     public function listarTodos($perPage)
@@ -28,20 +31,37 @@ class VarianteService
         return $this->varianteRepository->getById($id);
     }
 
-    public function storeVarianteConEspecificaciones($data)
+    public function storeVarianteConEspecificaciones(array $data)
     {
-        return DB::transaction(function () use ($data) {
-            $variante = $this->varianteRepository->create($data);
+        return DB::transaction(function () use ($data){
+            $producto = $this->productoRepository->getById($data['id_producto']);
+            $costoBase = $producto->costo_base;
 
-            foreach ($data['especificaciones'] as $especificacion) {
-                $this->varianteEspecificacionRepository->create([
-                    'id_variantes' => $variante->id_variantes,
-                    'id_especificaciones' => $especificacion['id_especificaciones'],
-                    'valor' => $especificacion['valor'],
-                ]);
+            if ($peso = $this->extraerPesoDeEspecificaciones($data)){
+                $data['precio_unitario'] = $this->calcularPrecioPorPeso($peso, $costoBase);
             }
+
+            $variante = $this->varianteRepository->create($data);
+            $this->varianteRepository->asignarEspecificaciones($variante, $data['especificaciones']);
 
             return $variante;
         });
+    }
+
+    private function calcularPrecioPorPeso(float $pesoOnzas, float $costoBase)
+    {
+        $precio = ($pesoOnzas - 16) * 2.15 + $costoBase;
+        return round($precio, 2);
+    }
+
+    private function extraerPesoDeEspecificaciones(array $data)
+    {
+        foreach($data['especificaciones'] as $especificacion){
+            if ($this->especificacionRepository->esEspecificacionPorPeso($especificacion['id_especificaciones'])){
+                return (float) $especificacion['valor'];
+            }
+        }
+        
+        return null;
     }
 }

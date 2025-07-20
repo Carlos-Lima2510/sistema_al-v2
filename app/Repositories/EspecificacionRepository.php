@@ -15,4 +15,11 @@ class EspecificacionRepository
     {
         return Especificacion::create($data);
     }
+
+    public function esEspecificacionPorPeso(int $id)
+    {
+        return Especificacion::where('id_especificaciones', $id)
+            ->where('nombre_especificacion', 'peso')
+            ->exists();
+    }
 }

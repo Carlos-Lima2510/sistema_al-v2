@@ -3,6 +3,8 @@
 namespace App\Repositories;
 
 use App\Models\Variante;
+use App\Models\VarianteEspecificacion;
+use Illuminate\Support\Facades\DB;
 
 class VarianteRepository
 {
@@ -17,6 +19,17 @@ class VarianteRepository
     public function create(array $data)
     {
         return Variante::create($data);
+    }
+
+    public function asignarEspecificaciones(Variante $variante, array $especificaciones)
+    {
+        foreach($especificaciones as $especificacion){
+                VarianteEspecificacion::create([
+                    'id_variantes' => $variante->id_variantes,
+                    'id_especificaciones' => $especificacion['id_especificaciones'],
+                    'valor' => $especificacion['valor'],
+                ]);
+            }
     }
 
     public function findByProducto($productoId)
