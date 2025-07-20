@@ -28,12 +28,6 @@ class ProductoRepository
             'variantes.especificaciones'
         ]);
 
-        // if (isset($filters['especificaciones'])) {
-        // $filters['especificaciones'] = is_string($filters['especificaciones'])
-        //     ? json_decode($filters['especificaciones'], true)
-        //     : $filters['especificaciones'];
-        // }
-
         $filteredQuery = ProductoFilter::apply($query, $filters);
 
         return $filteredQuery->paginate($perPage);

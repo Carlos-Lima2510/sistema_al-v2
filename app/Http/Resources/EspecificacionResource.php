@@ -14,11 +14,18 @@ class EspecificacionResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        return [
+        $response = [
             'id_especificaciones' => $this->id_especificaciones,
             'nombre_especificacion' => $this->nombre_especificacion,
             'unidad' => $this->unidad,
-            'valor' => $this->pivot->valor
         ];
+
+        if ($this->pivot && $this->pivot->valor) {
+            $response['valor'] = $this->pivot->valor;
+        } else if (isset($this->valor)) {
+            $response['valor'] = $this->valor;
+        }
+
+        return $response;
     }
 }
