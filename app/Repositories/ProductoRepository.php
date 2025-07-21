@@ -18,7 +18,7 @@ class ProductoRepository
         ])->paginate($perPage);
     }
 
-    public function getFilteredPaginatedProducts(array $filters, int $perPage = 10)
+    public function getFilteredPaginatedProducts(array $filters, int $perPage)
     {
         $query = Producto::with([
             'categoria',
@@ -63,6 +63,14 @@ class ProductoRepository
             'codigoColor',
             'variantes',
         ])->findOrFail($id);
+    }
+
+    public function existsProductoCombinacion($idMarcaMaterial, $idCodigoColor, $idCategoria)
+    {
+        return Producto::where('id_marca_material', $idMarcaMaterial)
+            ->where('id_codigo_color', $idCodigoColor)
+            ->where('id_categoria', $idCategoria)
+            ->exists();
     }
 
     public function create(array $data): Producto
