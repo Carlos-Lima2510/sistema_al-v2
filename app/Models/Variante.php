@@ -12,14 +12,23 @@ class Variante extends Model
     public $timestamps = true;
     protected $fillable = [
         'id_producto',
-        'peso_libras',
         'precio_unitario',
         'precio_por_mayor',
         'stock'
     ];
     protected $hidden = ['created_at', 'updated_at'];
-    public function producto(): BelongsTo 
+    public function producto(): BelongsTo
     {
         return $this->belongsTo(Producto::class, 'id_producto');
+    }
+
+    public function especificaciones()
+    {
+        return $this->belongsToMany(
+            Especificacion::class,
+            'variante_especificaciones',
+            'id_variantes',
+            'id_especificaciones'
+        )->withPivot('valor');
     }
 }

@@ -18,6 +18,8 @@ class DatabaseSeeder extends Seeder
         $this->call(RolesYPermisosSeeder::class);
         $this->call(MarcaSeeder::class);
         $this->call(TipoMaterialSeeder::class);
+        $this->call(CategoriaSeeder::class);
+        $this->call(MarcaMaterialSeeder::class);
 
     }
 }

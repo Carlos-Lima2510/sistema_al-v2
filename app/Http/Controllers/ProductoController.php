@@ -28,11 +28,20 @@ class ProductoController extends Controller
      */
     public function index(Request $request)
     {
+        $filters = $request->only([
+            'id_categoria',
+            'id_marca',
+            'id_tipo_material',
+            'agotado',
+            'especificaciones'
+        ]);
+
         $perPage = $request->input('per_page', 10);
-        $productos = $this->service->listarTodos($perPage);
+
+        $productos = $this->service->listarFiltrados($filters, $perPage);
 
         return response()->json([
-            'data' => ProductoResource::collection($productos->items()),
+            'data' => ProductoResource::collection($productos),
             'total' => $productos->total(),
             'success' => true,
             'message' => 'Productos recuperados correctamente'
@@ -55,6 +64,12 @@ class ProductoController extends Controller
      */
     public function store(StoreProductoRequest $request)
     {
+        $this->service->validarCombinacion(
+            $request->id_marca_material,
+            $request->id_codigo_color,
+            $request->id_categoria
+        );
+
         $producto = $this->service->crear($request->validated());
         return response()->json(new ProductoResource($producto), 201);
     }

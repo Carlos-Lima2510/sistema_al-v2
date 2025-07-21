@@ -19,7 +19,6 @@ class Producto extends Model
         'id_marca_material',
         'id_codigo_color',
         'costo_base',
-        'tipo_valuacion',
         'activo',
         'descripcion',
         'fecha_registro'
