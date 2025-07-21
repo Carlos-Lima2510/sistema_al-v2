@@ -22,7 +22,7 @@ class StoreTipoMaterialRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'nombre_material' => 'required|string',
+            'nombre_material' => 'required|string|unique:tipo_material,nombre_material',
         ];
     }
 }
