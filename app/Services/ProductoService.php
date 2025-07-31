@@ -51,8 +51,12 @@ class ProductoService
     public function validarCombinacion($idMarcaMaterial, $idCodigoColor, $idCategoria)
     {
         $marcaMaterial = $this->marcaMaterialRepository->getById($idMarcaMaterial);
-        $codigoColor = $this->codigoColorRepository->getCodigoColor($idCodigoColor);
         $categoria = $this->categoriaRepository->getById($idCategoria);
+
+        $codigoColor = null;
+        if ($codigoColor) {
+            $codigoColor = $this->codigoColorRepository->getCodigoColor($idCodigoColor);
+        }
 
         $existe = $this->productoRepository->existsProductoCombinacion($idMarcaMaterial, $idCodigoColor, $idCategoria);
 
@@ -61,13 +65,25 @@ class ProductoService
                 'id_marca_material' => "Ya existe un producto con marca '{$marcaMaterial->marca->nombre_marca}', " .
                     "material '{$marcaMaterial->tipo_material->nombre_material}', " .
                     "categoria '{$categoria->nombre_categoria}' " .
-                    "y color '{$codigoColor->nombre_color}'"
+                    "y color '" . ($codigoColor ? $codigoColor->nombre_color : 'Sin color') . "'"
             ]);
         }
     }
 
+    public function tieneColor($productoId)
+    {
+        $producto = $this->productoRepository->getById($productoId);
+        return !empty($producto->id_codigo_color);
+    }
+
     public function crear(array $data)
     {
+        $this->validarCombinacion(
+            $data['id_marca_material'],
+            $data['id_codigo_color'] ?? null,
+            $data['id_categoria']
+        );
+
         return $this->productoRepository->create($data);
     }
 }

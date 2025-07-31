@@ -10,6 +10,7 @@ use Illuminate\Routing\Controller;
 use App\Http\Requests\StoreProductoRequest;
 use App\Http\Resources\ProductoCollection;
 use App\Http\Resources\ProductoResource;
+use App\Http\Resources\ProductoResourceSinColor;
 
 class ProductoController extends Controller
 {
@@ -64,14 +65,17 @@ class ProductoController extends Controller
      */
     public function store(StoreProductoRequest $request)
     {
-        $this->service->validarCombinacion(
-            $request->id_marca_material,
-            $request->id_codigo_color,
-            $request->id_categoria
-        );
-
         $producto = $this->service->crear($request->validated());
-        return response()->json(new ProductoResource($producto), 201);
+
+        if (!$this->service->tieneColor($producto->id_producto))
+        {
+            return response()->json(new ProductoResourceSinColor($producto), 201);
+
+        } else {
+
+            return response()->json(new ProductoResource($producto), 201);
+        }
+
     }
 
     /**
