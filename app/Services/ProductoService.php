@@ -70,12 +70,6 @@ class ProductoService
         }
     }
 
-    public function tieneColor($productoId)
-    {
-        $producto = $this->productoRepository->getById($productoId);
-        return !empty($producto->id_codigo_color);
-    }
-
     public function crear(array $data)
     {
         $this->validarCombinacion(

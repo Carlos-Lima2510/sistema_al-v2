@@ -66,15 +66,7 @@ class ProductoController extends Controller
     public function store(StoreProductoRequest $request)
     {
         $producto = $this->service->crear($request->validated());
-
-        if (!$this->service->tieneColor($producto->id_producto))
-        {
-            return response()->json(new ProductoResourceSinColor($producto), 201);
-
-        } else {
-
-            return response()->json(new ProductoResource($producto), 201);
-        }
+        return response()->json(new ProductoResource($producto), 201);
 
     }
 
