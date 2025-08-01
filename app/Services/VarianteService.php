@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Repositories\EspecificacionRepository;
+use App\Models\Variante;
 use App\Repositories\ProductoRepository;
 use App\Repositories\VarianteRepository;
 use Illuminate\Support\Facades\DB;
@@ -33,11 +34,11 @@ class VarianteService
 
     public function storeVarianteConEspecificaciones(array $data)
     {
-        return DB::transaction(function () use ($data){
+        return DB::transaction(function () use ($data) {
             $producto = $this->productoRepository->getById($data['id_producto']);
             $costoBase = $producto->costo_base;
 
-            if ($peso = $this->extraerPesoDeEspecificaciones($data)){
+            if ($peso = $this->extraerPesoDeEspecificaciones($data)) {
                 $data['precio_unitario'] = $this->calcularPrecioPorPeso($peso, $costoBase);
             }
 
@@ -46,6 +47,56 @@ class VarianteService
 
             return $variante;
         });
+    }
+    public function actualizar(Variante $variante, array $data)
+    {
+        $varianteActualizada = $this->varianteRepository->update($variante, $data);
+
+        if (isset($data['especificaciones'])) {
+            $this->validarDuplicados($data['especificaciones']);
+            $this->sincronizarEspecificaciones($varianteActualizada, $data['especificaciones']);
+            $this->recalcularPrecioPorPeso($varianteActualizada, $data['especificaciones']);
+        }
+
+        return $varianteActualizada->fresh(['especificaciones']);
+    }
+
+    private function validarDuplicados(array $especificaciones): void
+    {
+        $ids = array_column($especificaciones, 'id_especificaciones');
+        $duplicados = array_diff_key($ids, array_unique($ids));
+
+        if (!empty($duplicados)) {
+            throw new \InvalidArgumentException('No puedes repetir especificaciones con el mismo ID.');
+        }
+    }
+
+    private function sincronizarEspecificaciones(Variante $variante, array $especificaciones): void
+    {
+        $syncData = [];
+        foreach ($especificaciones as $especificacion) {
+            $syncData[$especificacion['id_especificaciones']] = ['valor' => $especificacion['valor']];
+        }
+
+        $variante->especificaciones()->sync($syncData);
+    }
+
+    private function recalcularPrecioPorPeso(Variante $variante, array $especificaciones): void
+    {
+        foreach ($especificaciones as $especificacion) {
+            if ($this->especificacionRepository->esEspecificacionPorPeso($especificacion['id_especificaciones'])) {
+                $nuevoPrecio = $this->calcularPrecioPorPeso(
+                    (float) $especificacion['valor'],
+                    $variante->producto->costo_base
+                );
+                $variante->precio_unitario = $nuevoPrecio;
+                $variante->save();
+            }
+        }
+    }
+    public function eliminar(Variante $variante)
+    {
+        return $this->varianteRepository->delete($variante);
     }
 
     public function calcularPrecioPorPeso(float $pesoOnzas, float $costoBase)
@@ -56,12 +107,12 @@ class VarianteService
 
     private function extraerPesoDeEspecificaciones(array $data)
     {
-        foreach($data['especificaciones'] as $especificacion){
-            if ($this->especificacionRepository->esEspecificacionPorPeso($especificacion['id_especificaciones'])){
+        foreach ($data['especificaciones'] as $especificacion) {
+            if ($this->especificacionRepository->esEspecificacionPorPeso($especificacion['id_especificaciones'])) {
                 return (float) $especificacion['valor'];
             }
         }
-        
+
         return null;
     }
 }

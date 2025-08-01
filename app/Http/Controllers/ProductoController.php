@@ -107,6 +107,9 @@ class ProductoController extends Controller
     public function destroy(Producto $producto)
     {
         $productoEliminado = $this->service->eliminar($producto);
-        return response()->json(new ProductoDetailedResource($productoEliminado), 200);
+        return response()->json([
+            'message' => 'Producto eliminado correctamente',
+            'producto' => new ProductoDetailedResource($productoEliminado)
+        ], 200);
     }
 }

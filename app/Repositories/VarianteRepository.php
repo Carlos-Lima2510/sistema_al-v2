@@ -12,8 +12,12 @@ class VarianteRepository
     {
         return Variante::with('producto')->paginate($perPage);
     }
-    public function getById(int $id){
-        return Variante::with('producto')->findOrFail($id);
+    public function getById(int $id)
+    {
+        return Variante::with(
+            'producto',
+            'especificaciones'
+        )->findOrFail($id);
     }
 
     public function create(array $data)
@@ -23,17 +27,25 @@ class VarianteRepository
 
     public function asignarEspecificaciones(Variante $variante, array $especificaciones)
     {
-        foreach($especificaciones as $especificacion){
-                VarianteEspecificacion::create([
-                    'id_variantes' => $variante->id_variantes,
-                    'id_especificaciones' => $especificacion['id_especificaciones'],
-                    'valor' => $especificacion['valor'],
-                ]);
-            }
+        foreach ($especificaciones as $especificacion) {
+            VarianteEspecificacion::create([
+                'id_variantes' => $variante->id_variantes,
+                'id_especificaciones' => $especificacion['id_especificaciones'],
+                'valor' => $especificacion['valor'],
+            ]);
+        }
     }
 
-    public function findByProducto($productoId)
+    public function update(Variante $variante, array $data)
     {
-        return Variante::where('id_producto', $productoId)->get();
+        $variante->update($data);
+        return $this->getById($variante->id_variantes);
+    }
+
+    public function delete(Variante $variante)
+    {
+        $varianteEliminada = $this->getById($variante->id_variantes);
+        $variante->delete();
+        return $varianteEliminada;
     }
 }

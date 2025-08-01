@@ -7,8 +7,8 @@ use App\Services\VarianteService;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use \App\Models\Variante;
-use \App\Models\Producto;
 use \App\Http\Requests\StoreVarianteRequest;
+use \App\Http\Requests\UpdateVarianteRequest;
 
 class VarianteController extends Controller
 {
@@ -71,9 +71,11 @@ class VarianteController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Variante $variante)
+    public function update(UpdateVarianteRequest $request, Variante $variante)
     {
-        //
+        $varianteActualizada = $this->service->actualizar($variante, $request->validated());
+        return response()->json(new VarianteResource($varianteActualizada), 200);
+
     }
 
     /**
@@ -81,6 +83,10 @@ class VarianteController extends Controller
      */
     public function destroy(Variante $variante)
     {
-        //
+        $varianteEliminada = $this->service->eliminar($variante);
+        return response()->json([
+            'message' => 'Variante eliminada correctamente.',
+            'variante' => new VarianteResource($varianteEliminada)
+        ], 200);
     }
 }
