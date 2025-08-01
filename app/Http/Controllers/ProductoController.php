@@ -8,6 +8,7 @@ use App\Services\ProductoService;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use App\Http\Requests\StoreProductoRequest;
+use App\Http\Requests\UpdateProductoRequest;
 use App\Http\Resources\ProductoCollection;
 use App\Http\Resources\ProductoResource;
 use App\Http\Resources\ProductoResourceSinColor;
@@ -76,7 +77,7 @@ class ProductoController extends Controller
     public function show(Producto $producto)
     {
         $producto = $this->service->mostrar($producto);
-        return new ProductoDetailedResource($producto);
+        return response()->json(new ProductoDetailedResource($producto), 200);
     }
 
     /**
@@ -90,9 +91,10 @@ class ProductoController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Producto $producto)
+    public function update(UpdateProductoRequest $request, Producto $producto)
     {
-        //
+        $productoActualizado = $this->service->actualizar($producto, $request->validated());
+        return response()->json(new ProductoResource($productoActualizado), 200);
     }
 
     /**
@@ -100,6 +102,7 @@ class ProductoController extends Controller
      */
     public function destroy(Producto $producto)
     {
-        //
+        $productoEliminado = $this->service->eliminar($producto);
+        return response()->json(new ProductoDetailedResource($productoEliminado), 200);
     }
 }

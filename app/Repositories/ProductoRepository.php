@@ -77,4 +77,17 @@ class ProductoRepository
     {
         return Producto::create($data);
     }
+
+    public function update(Producto $producto, array $data)
+    {
+        $producto->update($data);
+        return $this->findWithRelations($producto);
+    }
+
+    public function delete(Producto $producto)
+    {
+        $productoEliminado = $this->findWithRelations($producto);
+        $producto->delete();
+        return $productoEliminado;
+    }
 }

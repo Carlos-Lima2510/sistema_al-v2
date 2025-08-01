@@ -2,10 +2,12 @@
 
 namespace App\Services;
 
+use App\Models\Producto;
 use App\Repositories\ProductoRepository;
 use App\Repositories\MarcaMaterialRepository;
 use App\Repositories\CodigoColorRepository;
 use App\Repositories\CategoriaRepository;
+use App\Repositories\EspecificacionRepository;
 use Illuminate\Validation\ValidationException;
 
 
@@ -15,17 +17,23 @@ class ProductoService
     protected $marcaMaterialRepository;
     protected $codigoColorRepository;
     protected $categoriaRepository;
+    protected $especificacionRepository;
+    protected $varianteService;
 
     public function __construct(
         ProductoRepository $productoRepository,
         MarcaMaterialRepository $marcaMaterialRepository,
         CodigoColorRepository $codigoColorRepository,
-        CategoriaRepository $categoriaRepository
+        CategoriaRepository $categoriaRepository,
+        EspecificacionRepository $especificacionRepository,
+        VarianteService $varianteService
     ) {
         $this->productoRepository = $productoRepository;
         $this->marcaMaterialRepository = $marcaMaterialRepository;
         $this->codigoColorRepository = $codigoColorRepository;
         $this->categoriaRepository = $categoriaRepository;
+        $this->especificacionRepository = $especificacionRepository;
+        $this->varianteService = $varianteService;
     }
 
     public function listarTodos($perPage)
@@ -79,5 +87,35 @@ class ProductoService
         );
 
         return $this->productoRepository->create($data);
+    }
+
+    public function actualizar(Producto $producto, array $data)
+    {
+        $costoBaseAnterior = $producto->costo_base;
+        $productoActualizado = $this->productoRepository->update($producto, $data);
+
+        if (isset($data['costo_base']) && $data['costo_base'] != $costoBaseAnterior){
+            foreach ($productoActualizado->variantes as $variante){
+                $peso = null;
+                foreach ($variante->especificaciones as $especificacion){
+                    if ($this->especificacionRepository->esEspecificacionPorPeso($especificacion->id_especificaciones)){
+                       $peso = (float) $especificacion->pivot->valor;
+                       break;
+                    }
+                }
+                if ($peso != null){
+                    $nuevoPrecio = $this->varianteService->calcularPrecioPorPeso($peso, $data['costo_base']);
+                    $variante->precio_unitario = $nuevoPrecio;
+                    $variante->save();
+                }
+            }
+        }
+        
+        return $productoActualizado;
+    }
+
+    public function eliminar(Producto $producto)
+    {
+        return $this->productoRepository->delete($producto);
     }
 }

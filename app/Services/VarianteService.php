@@ -48,7 +48,7 @@ class VarianteService
         });
     }
 
-    private function calcularPrecioPorPeso(float $pesoOnzas, float $costoBase)
+    public function calcularPrecioPorPeso(float $pesoOnzas, float $costoBase)
     {
         $precio = ($pesoOnzas - 16) * 2.15 + $costoBase;
         return round($precio, 2);
