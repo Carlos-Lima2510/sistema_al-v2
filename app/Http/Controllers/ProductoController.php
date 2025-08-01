@@ -53,7 +53,11 @@ class ProductoController extends Controller
     public function activos()
     {
         $productos = $this->service->listarActivos();
-        return ProductoResource::collection($productos);
+        return response()->json([
+            'data' => ProductoResource::collection($productos),
+            'success' => true,
+            'message' => 'Productos recuperados correctamente'
+        ]);
     }
 
     /**
@@ -76,7 +80,7 @@ class ProductoController extends Controller
      */
     public function show(Producto $producto)
     {
-        $producto = $this->service->mostrar($producto);
+        $producto = $this->service->mostrar($producto->id_producto);
         return response()->json(new ProductoDetailedResource($producto), 200);
     }
 

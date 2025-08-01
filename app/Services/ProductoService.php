@@ -51,9 +51,9 @@ class ProductoService
         return $this->productoRepository->getActive();
     }
 
-    public function mostrar($producto)
+    public function mostrar($idProducto)
     {
-        return $this->productoRepository->findWithRelations($producto);
+        return $this->productoRepository->getById($idProducto);
     }
 
     public function validarCombinacion($idMarcaMaterial, $idCodigoColor, $idCategoria)
