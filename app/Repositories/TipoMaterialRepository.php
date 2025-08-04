@@ -11,9 +11,9 @@ class TipoMaterialRepository
         return TipoMaterial::all();
     }
 
-    public function findById($id)
+    public function findById(int $id)
     {
-        return TipoMaterial::find($id);
+        return TipoMaterial::findOrFail($id);
     }
 
     public function create(array $data): TipoMaterial

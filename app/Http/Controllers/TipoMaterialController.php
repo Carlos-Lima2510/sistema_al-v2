@@ -50,9 +50,9 @@ class TipoMaterialController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(TipoMaterial $tipoMaterial)
+    public function show(int $id_tipo_material)
     {
-        $material = $this->service->getMaterial($tipoMaterial->id_tipo_material);
+        $material = $this->service->getMaterial($id_tipo_material);
         return response()->json(new TipoMaterialResource($material),200);
     }
 

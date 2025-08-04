@@ -19,7 +19,7 @@ class TipoMaterialService
         return $this->repo->getAll();
     }
 
-    public function getMaterial($id)
+    public function getMaterial(int $id)
     {
         return $this->repo->findById($id);
     }
