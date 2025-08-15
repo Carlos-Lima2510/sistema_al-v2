@@ -29,11 +29,11 @@ class ProductoController extends Controller
     public function index(Request $request)
     {
         $filters = $request->only([
-            'id_categoria',
+            'categorias',
             'id_marca',
             'id_tipo_material',
             'agotado',
-            'especificaciones'
+            'especificaciones',
         ]);
 
         $perPage = $request->input('per_page', 10);
