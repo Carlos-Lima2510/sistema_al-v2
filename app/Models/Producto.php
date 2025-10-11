@@ -17,7 +17,6 @@ class Producto extends Model
     protected $fillable = [
         'id_categoria',
         'id_marca_material',
-        'id_codigo_color',
         'costo_base',
         'activo',
         'descripcion',
@@ -34,12 +33,6 @@ class Producto extends Model
     {
         return $this->belongsTo(MarcaMaterial::class, 'id_marca_material');
     }
-
-    public function codigoColor(): BelongsTo
-    {
-        return $this->belongsTo(CodigoColor::class, 'id_codigo_color');
-    }
-
     public function variantes()
     {
         return $this->hasMany(Variante::class, 'id_producto', 'id_producto');

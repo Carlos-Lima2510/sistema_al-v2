@@ -12,6 +12,7 @@ class Variante extends Model
     public $timestamps = true;
     protected $fillable = [
         'id_producto',
+        'id_codigo_color',
         'precio_unitario',
         'precio_por_mayor',
         'stock'
@@ -20,6 +21,10 @@ class Variante extends Model
     public function producto(): BelongsTo
     {
         return $this->belongsTo(Producto::class, 'id_producto');
+    }
+    public function codigoColor(): BelongsTo
+    {
+        return $this->belongsTo(CodigoColor::class, 'id_codigo_color');
     }
 
     public function especificaciones()

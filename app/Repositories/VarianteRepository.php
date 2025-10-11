@@ -16,6 +16,7 @@ class VarianteRepository
     {
         return Variante::with(
             'producto',
+            'codigoColor',
             'especificaciones'
         )->findOrFail($id);
     }

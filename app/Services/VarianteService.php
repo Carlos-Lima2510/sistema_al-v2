@@ -99,11 +99,30 @@ class VarianteService
         return $this->varianteRepository->delete($variante);
     }
 
-    public function calcularPrecioPorPeso(float $pesoOnzas, float $costoBase)
-    {
-        $precio = ($pesoOnzas - 16) * 2.15 + $costoBase;
-        return round($precio, 2);
+    public function calcularPrecioPorPeso(float $pesoOnzas, float $costoBase) {
+    $precio = ($pesoOnzas - 16) * 2.15 + $costoBase;
+
+    // Extraemos la parte entera y decimal
+    $entero = floor($precio);
+    $decimal = $precio - $entero;
+
+    // Redondeamos el decimal a .25, .50, .75 o 0
+    if ($decimal < 0.125) {
+        $decimalRedondeado = 0.0;
+    } elseif ($decimal < 0.375) {
+        $decimalRedondeado = 0.25;
+    } elseif ($decimal < 0.625) {
+        $decimalRedondeado = 0.50;
+    } elseif ($decimal < 0.875) {
+        $decimalRedondeado = 0.75;
+    } else {
+        $decimalRedondeado = 0.0;
+        $entero += 1; // subimos al siguiente entero
     }
+
+    return $entero + $decimalRedondeado;
+}
+
 
     private function extraerPesoDeEspecificaciones(array $data)
     {

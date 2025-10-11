@@ -24,7 +24,19 @@ class StoreCodigoColorRequest extends FormRequest
         return [
             'codigo' => 'required|string',
             'nombre_color' => 'required|string',
+            'codigo_hex' => [
+                'required',
+                'string',
+                'regex:/^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/'
+            ],
             'id_marca_material' => 'required|numeric'
+        ];
+    }
+
+    public function messages(): array
+    {
+        return [
+            'codigo_hex.regex' => 'El código HEX debe tener el formato #FFFFFF o #FFF',
         ];
     }
 }
