@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: inventory-management-service-deployment-develop
+  namespace: inventory-management-develop
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: inventory-management-service-develop
+  template:
+    metadata:
+      labels:
+        app: inventory-management-service-develop
+    spec:
+      containers:
+        - name: php-fpm
+          image: localhost:32000/image:latest
+          ports:
+            - containerPort: 9000
+          envFrom:
+            - secretRef:
+                name: inventory-management-service-secret
+          resources:
+            requests:
+              memory: "256Mi"
+              cpu: "250m"
+            limits:
+              memory: "512Mi"
+              cpu: "500m"
+
+        - name: nginx
+          image: nginx:latest
+          ports:
+            - containerPort: 80
+          volumeMounts:
+            - name: nginx-config
+              mountPath: /etc/nginx/conf.d
+          resources:
+            requests:
+              memory: "256Mi"
+              cpu: "250m"
+            limits:
+              memory: "512Mi"
+              cpu: "500m"
+      volumes:
+        - name: nginx-config
+          configMap:
+            name: inventory-management-service-nginx-config

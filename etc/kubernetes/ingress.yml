@@ -1,0 +1,19 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: inventory-management-service-ingress-develop
+  namespace: inventory-management-develop
+  annotations:
+    nginx.ingress.kubernetes.io/proxy-body-size: "50m"
+spec:
+  rules:
+    - host: sistema-al.com
+      http:
+        paths:
+          - path: /api
+            pathType: Prefix
+            backend:
+              service:
+                name: inventory-management-service-develop
+                port:
+                  number: 80
