@@ -9,9 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use App\Http\Requests\StoreProductoRequest;
 use App\Http\Requests\UpdateProductoRequest;
-use App\Http\Resources\ProductoCollection;
 use App\Http\Resources\ProductoResource;
-use App\Http\Resources\ProductoResourceSinColor;
 
 class ProductoController extends Controller
 {
@@ -31,11 +29,11 @@ class ProductoController extends Controller
     public function index(Request $request)
     {
         $filters = $request->only([
-            'id_categoria',
+            'categorias',
             'id_marca',
             'id_tipo_material',
             'agotado',
-            'especificaciones'
+            'especificaciones',
         ]);
 
         $perPage = $request->input('per_page', 10);
@@ -71,7 +69,11 @@ class ProductoController extends Controller
     public function store(StoreProductoRequest $request)
     {
         $producto = $this->service->crear($request->validated());
-        return response()->json(new ProductoResource($producto), 201);
+        return response()->json([
+            'data' => new ProductoResource($producto),
+            'success' => true,
+            'message' => 'Producto creado correctamente'
+        ], 201);
 
     }
 
@@ -81,7 +83,11 @@ class ProductoController extends Controller
     public function show(Producto $producto)
     {
         $producto = $this->service->mostrar($producto->id_producto);
-        return response()->json(new ProductoDetailedResource($producto), 200);
+        return response()->json([
+            'data' => new ProductoDetailedResource($producto),
+            'success' => true,
+            'message' => 'Producto recuperado correctamente',
+        ], 200);
     }
 
     /**
@@ -98,7 +104,11 @@ class ProductoController extends Controller
     public function update(UpdateProductoRequest $request, Producto $producto)
     {
         $productoActualizado = $this->service->actualizar($producto, $request->validated());
-        return response()->json(new ProductoResource($productoActualizado), 200);
+        return response()->json([
+            'data' => new ProductoResource($productoActualizado),
+            'message' => 'Producto actualizado correctamente',
+            'success' => true
+        ], 200);
     }
 
     /**
@@ -107,6 +117,10 @@ class ProductoController extends Controller
     public function destroy(Producto $producto)
     {
         $productoEliminado = $this->service->eliminar($producto);
-        return response()->json(new ProductoDetailedResource($productoEliminado), 200);
+        return response()->json([
+            'data' => new ProductoResource($productoEliminado),
+            'message' => 'Producto eliminado correctamente',
+            'success' => true
+        ], 200);
     }
 }

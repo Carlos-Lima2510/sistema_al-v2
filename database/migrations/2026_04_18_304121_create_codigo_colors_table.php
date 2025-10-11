@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id('id_codigo_color');
             $table->string('codigo');
             $table->string('nombre_color');
+            $table->string('codigo_hex', 7);
             $table->unsignedBigInteger('id_marca_material');
 
             $table->foreign('id_marca_material')

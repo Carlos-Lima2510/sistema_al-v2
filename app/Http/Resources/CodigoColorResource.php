@@ -18,6 +18,7 @@ class CodigoColorResource extends JsonResource
             'id' => $this->id_codigo_color,
             'codigo' => $this->codigo,
             'nombre_color' => $this->nombre_color,
+            'codigo_hex' => $this->codigo_hex,
             'marca_material' => $this->whenLoaded('marcaMaterial', function () {
                 return [
                     'id_marca_material' => $this->marcaMaterial->id_marca_material,

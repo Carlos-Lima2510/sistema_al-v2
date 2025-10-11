@@ -18,6 +18,7 @@ class CodigoColor extends Model
     protected $fillable = [
         'codigo',
         'nombre_color',
+        'codigo_hex',
         'id_marca_material'
     ];
     protected $hidden = ['created_at', 'updated_at'];

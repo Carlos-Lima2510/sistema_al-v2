@@ -15,16 +15,10 @@ return new class extends Migration
             $table->id('id_producto');
             $table->unsignedBigInteger('id_categoria');
             $table->unsignedBigInteger('id_marca_material');
-            $table->unsignedBigInteger('id_codigo_color');
             $table->decimal('costo_base');
             $table->boolean('activo');
             $table->text('descripcion');
             $table->dateTime('fecha_registro');
-
-            $table->foreign('id_codigo_color')
-                ->references('id_codigo_color')
-                ->on('codigo_color')
-                ->onDelete('cascade');
 
             $table->foreign('id_categoria')
                 ->references('id_categoria')

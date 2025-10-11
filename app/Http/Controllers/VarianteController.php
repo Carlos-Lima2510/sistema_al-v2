@@ -7,8 +7,8 @@ use App\Services\VarianteService;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use \App\Models\Variante;
-use \App\Models\Producto;
 use \App\Http\Requests\StoreVarianteRequest;
+use \App\Http\Requests\UpdateVarianteRequest;
 
 class VarianteController extends Controller
 {
@@ -48,7 +48,11 @@ class VarianteController extends Controller
     public function store(StoreVarianteRequest $request)
     {
         $variante = $this->service->storeVarianteConEspecificaciones($request->validated());
-        return response()->json(['message' => 'Variante creada correctamente.', 'variante' => $variante], 201);
+        return response()->json([
+            'data' => new VarianteResource($variante),
+            'message' => 'Variante creada correctamente.',
+            'success' => true
+        ], 201);
     }
 
     /**
@@ -57,7 +61,11 @@ class VarianteController extends Controller
     public function show(Variante $variante)
     {
         $variante = $this->service->obtenerPorId($variante->id_variantes);
-        return new VarianteResource($variante);
+        return response()->json([
+            'data' => new VarianteResource($variante),
+            'message' => 'Variante recuperada correctamente',
+            'success' => true
+        ], 200);
     }
 
     /**
@@ -71,9 +79,15 @@ class VarianteController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Variante $variante)
+    public function update(UpdateVarianteRequest $request, Variante $variante)
     {
-        //
+        $varianteActualizada = $this->service->actualizar($variante, $request->validated());
+        return response()->json([
+            'data' => new VarianteResource($varianteActualizada),
+            'message' => 'Variante actualizada correctamente',
+            'success' => true
+        ], 200);
+
     }
 
     /**
@@ -81,6 +95,11 @@ class VarianteController extends Controller
      */
     public function destroy(Variante $variante)
     {
-        //
+        $varianteEliminada = $this->service->eliminar($variante);
+        return response()->json([
+            'variante' => new VarianteResource($varianteEliminada),
+            'message' => 'Variante eliminada correctamente.',
+            'success' => true
+        ], 200);
     }
 }

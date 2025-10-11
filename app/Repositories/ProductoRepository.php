@@ -13,7 +13,6 @@ class ProductoRepository
             'categoria',
             'marcaMaterial.marca',
             'marcaMaterial.tipo_material',
-            'codigoColor',
             'variantes'
         ])->paginate($perPage);
     }
@@ -24,7 +23,6 @@ class ProductoRepository
             'categoria',
             'marcaMaterial.marca',
             'marcaMaterial.tipo_material',
-            'codigoColor',
             'variantes.especificaciones'
         ]);
 
@@ -39,7 +37,6 @@ class ProductoRepository
             'categoria',
             'marcaMaterial.marca',
             'marcaMaterial.tipo_material',
-            'codigoColor',
             'variantes',
         ])->where('activo', 1)->get();
     }
@@ -49,7 +46,6 @@ class ProductoRepository
             'categoria',
             'marcaMaterial.marca',
             'marcaMaterial.tipo_material',
-            'codigoColor',
             'variantes',
         ]);
     }
@@ -60,7 +56,6 @@ class ProductoRepository
             'categoria',
             'marcaMaterial.marca',
             'marcaMaterial.tipo_material',
-            'codigoColor',
             'variantes',
         ])->findOrFail($id);
     }
@@ -68,7 +63,6 @@ class ProductoRepository
     public function existsProductoCombinacion($idMarcaMaterial, $idCodigoColor, $idCategoria)
     {
         return Producto::where('id_marca_material', $idMarcaMaterial)
-            ->where('id_codigo_color', $idCodigoColor)
             ->where('id_categoria', $idCategoria)
             ->exists();
     }

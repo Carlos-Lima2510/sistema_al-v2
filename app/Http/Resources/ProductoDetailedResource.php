@@ -33,7 +33,6 @@ class ProductoDetailedResource extends JsonResource
                     ] : null,
                 ];
             }),
-            'codigo_color' => $this->whenLoaded('codigoColor'),
             'fecha_registro' => $this->fecha_registro
         ];
     }
